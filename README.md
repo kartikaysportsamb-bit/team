@@ -1,2 +1,2 @@
 # team
-suchit , sourav , kartikay , bhuvesh 
+sumilan , Jatin , kartikay , Satish ,Deepak 
