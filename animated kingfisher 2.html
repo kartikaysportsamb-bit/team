@@ -1,0 +1,1130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KINGFISHER — Cinematic Prompt Library</title>
+<meta name="description" content="KINGFISHER is a cinematic prompt library for building websites that land with precision.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#B6C3B0; --paper:#E3E8DE; --ink:#10201F; --ink-2:#2E3D3A; --ink-3:#4E5E58;
+  --line:rgba(16,32,31,.14); --ghost:#ADBAA7;
+  --orange:#E8732A; --orange-2:#F3A15E; --teal:#0E7C86; --cobalt:#1F4E9C;
+  --panel:#0F1D1C; --panel-2:#172A28;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --sans:"Manrope",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --gut:clamp(24px,4vw,56px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+em{font-style:italic}
+.mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.16em;font-size:10px;font-weight:500}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;height:100svh;min-height:620px;overflow:hidden;isolation:isolate;background:var(--bg)}
+.bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:var(--bg)}
+.ghost{
+  position:absolute;left:0;right:0;top:13vh;z-index:1;text-align:center;white-space:nowrap;pointer-events:none;user-select:none;
+  font-family:var(--serif);font-weight:400;font-size:clamp(90px,17vw,300px);line-height:.9;letter-spacing:-.02em;
+  color:var(--ghost);mix-blend-mode:darken;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 38%,rgba(0,0,0,.35) 62%,transparent 86%);
+          mask-image:linear-gradient(180deg,#000 0%,#000 38%,rgba(0,0,0,.35) 62%,transparent 86%);
+}
+.overlay{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(90deg,color-mix(in srgb,var(--bg) 70%,transparent) 0%,transparent 38%),
+    linear-gradient(0deg,color-mix(in srgb,var(--bg) 55%,transparent) 0%,transparent 40%);
+}
+
+/* reveal system */
+.rv{opacity:0;transform:translateY(18px);filter:blur(6px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease);
+  transition-delay:calc(var(--d,0) * 90ms);will-change:opacity,transform,filter}
+.is-revealed .rv{opacity:1;transform:none;filter:none}
+.no-motion .rv{transition:none !important}
+
+/* nav */
+.nav{position:absolute;z-index:4;top:0;left:0;right:0;padding:22px var(--gut);display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.brand{display:inline-flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.22em;font-size:13px}
+.brand svg{width:24px;height:24px;flex:none;overflow:visible;animation:bob 3.8s ease-in-out infinite}
+.brand .wing{transform-box:fill-box;transform-origin:85% 85%}
+.brand:hover .wing{animation:flutter .22s ease-in-out 6}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-2.5px) rotate(-5deg)}}
+@keyframes flutter{0%,100%{transform:rotate(0)}50%{transform:rotate(-16deg) scaleY(.85)}}
+.flap{transform-box:fill-box;transform-origin:50% 100%;animation:wingbeat .16s linear infinite alternate}
+@keyframes wingbeat{from{transform:scaleY(1)}to{transform:scaleY(-.75)}}
+.nav-links{display:flex;gap:34px}
+.nav-links a{color:var(--ink-2);transition:color .3s var(--ease)}
+.nav-links a:hover{color:var(--ink)}
+.nav-right{display:flex;justify-content:flex-end;align-items:center;gap:22px}
+.nav-right .signin{color:var(--ink-2)}
+.pill-dark{display:inline-flex;align-items:center;height:38px;padding:0 20px;border-radius:999px;background:var(--ink);color:var(--paper);
+  font-family:var(--sans);font-weight:600;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;transition:transform .4s var(--ease),background .3s}
+.pill-dark:hover{transform:translateY(-1px);background:var(--panel-2)}
+
+/* copy */
+.copy{position:absolute;z-index:3;left:var(--gut);top:50%;transform:translateY(calc(-50% + 76px));max-width:470px}
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--ink-2);margin-bottom:22px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--ink-2)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,5vw,76px);line-height:.95;letter-spacing:-.015em;color:var(--ink)}
+h1 em{color:var(--teal)}
+.lede{margin-top:22px;font-size:15px;line-height:1.6;color:var(--ink-2);max-width:420px}
+.actions{margin-top:30px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;gap:14px;height:52px;padding:0 8px 0 26px;border-radius:999px;color:#1a0d04;font-weight:700;font-size:14px;
+  background:linear-gradient(180deg,var(--orange-2),var(--orange));box-shadow:0 14px 28px -12px rgba(232,115,42,.65),inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.cta:hover{transform:translateY(-2px);box-shadow:0 20px 34px -12px rgba(232,115,42,.7),inset 0 1px 0 rgba(255,255,255,.35)}
+.cta .arr{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+.cta .arr svg{width:14px;height:14px}
+.link-u{font-weight:600;font-size:13.5px;border-bottom:1px solid var(--ink);padding-bottom:2px;color:var(--ink)}
+
+/* right cluster */
+.cluster{position:absolute;z-index:3;right:var(--gut);bottom:96px;width:min(400px,34vw)}
+.trust{display:flex;align-items:center;gap:14px;margin-bottom:16px;justify-content:flex-end}
+.avatars{display:flex}
+.avatars i{width:30px;height:30px;border-radius:50%;border:2px solid var(--bg);margin-left:-9px;display:block}
+.avatars i:first-child{margin-left:0}
+.avatars i:nth-child(1){background:linear-gradient(135deg,var(--teal),var(--panel))}
+.avatars i:nth-child(2){background:linear-gradient(135deg,var(--orange-2),var(--orange))}
+.avatars i:nth-child(3){background:linear-gradient(135deg,var(--ink-3),#8fa38b)}
+.avatars i:nth-child(4){background:linear-gradient(135deg,var(--cobalt),var(--teal))}
+.trust span{color:var(--ink-2);font-size:9.5px;line-height:1.5}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.card{background:linear-gradient(165deg,var(--panel-2),var(--panel));color:var(--paper);border-radius:22px;padding:12px 12px 16px;
+  border:1px solid rgba(255,255,255,.07);box-shadow:0 34px 60px -24px rgba(8,18,17,.65),0 10px 22px -8px rgba(8,18,17,.35)}
+.card + .card,.card.drop{margin-top:18px}
+.card-h{display:flex;justify-content:space-between;color:rgba(227,232,222,.6);padding:4px 4px 10px;font-size:9px}
+.thumb{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;
+  background:radial-gradient(circle at 30% 28%,rgba(14,124,134,.7),transparent 60%),radial-gradient(circle at 75% 80%,rgba(232,115,42,.55),transparent 55%),#13312f}
+.thumb canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .8s var(--ease)}
+.thumb.has-img canvas{opacity:1}
+.thumb figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;font-size:8.5px;color:var(--paper);
+  background:linear-gradient(0deg,rgba(8,18,17,.8),transparent)}
+.stat{font-family:var(--serif);font-size:clamp(26px,2.6vw,38px);line-height:1;margin:14px 4px 12px;letter-spacing:-.01em}
+.dots{display:flex;gap:6px;padding:0 4px}
+.dots i{width:5px;height:5px;border-radius:50%;background:rgba(227,232,222,.3)}
+.dots i:first-child{background:var(--orange)}
+
+/* strip */
+.strip{position:absolute;z-index:4;left:var(--gut);right:var(--gut);bottom:24px;display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:16px}
+.species{display:flex;align-items:baseline;gap:14px;color:var(--ink-2)}
+.species b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:22px;letter-spacing:0;text-transform:none;color:var(--ink)}
+.coord{color:var(--ink-2);text-align:center}
+.replay-wrap{display:flex;justify-content:flex-end}
+.replay{pointer-events:none;display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 16px;border-radius:999px;cursor:pointer;
+  background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.5);color:var(--ink);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.is-revealed .replay{pointer-events:auto}
+.replay:hover{background:rgba(255,255,255,.45)}
+
+/* ---------- FIELD NOTES ---------- */
+.notes{position:relative;border-top:1px solid var(--line);padding:clamp(80px,10vw,140px) var(--gut) clamp(80px,9vw,120px);
+  background:var(--paper) linear-gradient(180deg,var(--bg),var(--paper)) no-repeat top / 100% 220px}
+.wrap{max-width:1240px;margin:0 auto}
+.n-head{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(32px,6vw,96px);align-items:end;margin-bottom:clamp(44px,6vw,80px)}
+.kicker{color:var(--ink-3);margin-bottom:22px}
+.kicker b{color:var(--orange);font-weight:500}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.2vw,78px);line-height:.98;letter-spacing:-.015em}
+h2 em{color:var(--teal)}
+.n-head p{font-size:16px;line-height:1.65;color:var(--ink-2);max-width:460px;padding-bottom:8px}
+
+.bento{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:16px}
+.note{position:relative;border-radius:22px;padding:28px;overflow:hidden;display:flex;flex-direction:column}
+.note.light{background:rgba(255,255,255,.45);border:1px solid var(--line)}
+.note.dark{background:linear-gradient(165deg,var(--panel-2),var(--panel));color:var(--paper);grid-row:span 2;box-shadow:0 40px 70px -34px rgba(8,18,17,.6)}
+.note.wide{grid-column:span 2}
+.idx{color:var(--ink-3);margin-bottom:auto;padding-bottom:36px}
+.dark .idx{color:rgba(227,232,222,.55)}
+.note h3{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.5vw,36px);line-height:1.02;letter-spacing:-.01em;margin-bottom:12px}
+.note p{font-size:14px;line-height:1.65;color:var(--ink-2)}
+.dark p{color:rgba(227,232,222,.72)}
+.dive{margin:6px -6px 26px;width:calc(100% + 12px);height:auto;overflow:visible}
+.dive text{font-family:var(--mono);font-size:10px;letter-spacing:.16em;fill:rgba(227,232,222,.7)}
+.draw{fill:none;stroke-dasharray:1;stroke-dashoffset:1}
+.dive .arc{stroke:var(--orange-2);stroke-width:2.2;stroke-linecap:round}
+.dive .flyer-wrap{pointer-events:none}
+.dive .pt{opacity:0;transition:opacity .6s var(--ease) .2s}
+.dive .ripple{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.4);transition:opacity .8s var(--ease) 2.7s,transform 1.2s var(--ease) 2.7s}
+.in .dive .pt{opacity:1}
+.in .dive .ripple{opacity:1;transform:none}
+.chips{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.chip{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border-radius:999px;background:rgba(255,255,255,.55);border:1px solid var(--line);font-size:9px}
+.chip i{width:22px;height:22px;border-radius:50%;display:block}
+.eye-row{display:flex;gap:28px;align-items:center;justify-content:space-between;flex:1}
+.eye-row > div:first-child{max-width:430px}
+.target{width:clamp(150px,18vw,210px);height:auto;flex:none}
+.target .ring{fill:none;stroke:var(--ink-3);stroke-width:1}
+.target .cross{stroke:var(--ink-3);stroke-width:1}
+.target .lid{fill:none;stroke:var(--ink);stroke-width:1.6}
+.target .pupil{fill:var(--ink)}
+.target .glint{fill:var(--paper)}
+.target .lock{fill:none;stroke:var(--orange);stroke-width:1.6;transform-box:fill-box;transform-origin:center}
+.in .target .lock{animation:pulse 3.2s var(--ease) infinite}
+@keyframes pulse{0%{transform:scale(.55);opacity:0}30%{opacity:1}100%{transform:scale(1.15);opacity:0}}
+
+.band{margin-top:16px;border-radius:26px;background:linear-gradient(165deg,var(--panel-2),var(--panel));color:var(--paper);display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 40px 70px -34px rgba(8,18,17,.6)}
+.stat-cell{padding:30px 28px 32px;border-left:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;min-height:230px}
+.stat-cell:first-child{border-left:0}
+.stat-cell .mono{color:rgba(227,232,222,.55)}
+.big{font-family:var(--serif);font-size:clamp(44px,5vw,68px);line-height:1;margin:auto 0 18px;letter-spacing:-.015em;padding-top:26px}
+.big small{font-size:.4em;color:rgba(227,232,222,.6);margin-left:6px}
+.big.it{font-style:italic;color:var(--orange)}
+.ruler{position:relative;height:22px}
+.ruler .track{position:absolute;left:0;right:0;top:0;height:6px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden}
+.ruler .fill{position:absolute;inset:0;width:80%;border-radius:3px;background:linear-gradient(90deg,var(--teal),var(--orange-2));transform:scaleX(0);transform-origin:left}
+.in .ruler .fill{transform:scaleX(1);transition:transform 1.8s var(--ease) .3s}
+.ruler .ticks{position:absolute;left:0;right:0;top:10px;height:8px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 1px,transparent 1px 10%)}
+.circles{display:flex;align-items:center;gap:14px;height:22px}
+.circles i{display:block;width:22px;height:22px;border-radius:50%}
+.circles i:first-child{background:var(--paper)}
+.circles i:last-child{border:1.5px dashed rgba(227,232,222,.55)}
+.shim{height:8px;border-radius:999px;background:linear-gradient(90deg,var(--teal),var(--cobalt),var(--teal),var(--cobalt));background-size:300% 100%;animation:shim 4.5s linear infinite;margin-top:7px}
+@keyframes shim{to{background-position:-300% 0}}
+.strike{width:100%;height:22px;overflow:visible}
+.strike path{fill:none;stroke:var(--orange);stroke-width:2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.in .strike path{stroke-dashoffset:0;transition:stroke-dashoffset 2s var(--ease) .5s}
+
+.closing{text-align:center;padding-top:clamp(56px,7vw,96px)}
+.closing p{font-family:var(--serif);font-size:clamp(30px,4vw,56px);line-height:1.05;letter-spacing:-.01em;max-width:760px;margin:0 auto 32px}
+.closing p em{color:var(--teal)}
+
+.io{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0) * 90ms)}
+.io.in{opacity:1;transform:none}
+
+/* ---------- THROUGH THE EYE (60s film) ---------- */
+.sight{margin-top:clamp(64px,8vw,110px)}
+.stage{position:relative;border-radius:26px;overflow:hidden;background:var(--panel);border:1px solid rgba(255,255,255,.06);box-shadow:0 40px 70px -30px rgba(8,18,17,.6)}
+.stage canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#0F1D1C}
+.bigplay{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:16px;background:none;border:0;cursor:pointer;color:var(--paper);transition:opacity .5s var(--ease)}
+.bigplay .disc{width:86px;height:86px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,var(--orange-2),var(--orange));box-shadow:0 18px 40px -12px rgba(232,115,42,.7),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .4s var(--ease)}
+.bigplay:hover .disc{transform:scale(1.06)}
+.bigplay .disc svg{width:28px;height:28px;margin-left:4px;fill:#1a0d04}
+.bigplay .mono{text-shadow:0 1px 10px rgba(8,18,17,.7)}
+.stage.started .bigplay{opacity:0;pointer-events:none}
+.ctrl{display:flex;align-items:center;gap:14px;padding:12px 18px;background:var(--panel);border-top:1px solid rgba(255,255,255,.07);color:var(--paper)}
+.ctrl button{width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:var(--paper);display:grid;place-items:center;cursor:pointer;flex:none;transition:background .3s}
+.ctrl button:hover{background:rgba(255,255,255,.18)}
+.ctrl input[type=range]{flex:1;min-width:0;accent-color:var(--orange);height:4px;cursor:pointer}
+.tc{color:rgba(227,232,222,.7);min-width:96px;text-align:right;font-size:10.5px}
+.chips2{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.ch{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.45);color:var(--ink-2);cursor:pointer;transition:background .3s,color .3s}
+.ch:hover{background:rgba(255,255,255,.75)}
+.ch.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.stage:fullscreen{display:flex;flex-direction:column;justify-content:center;border-radius:0;background:#050b0b}
+.stage:fullscreen canvas{max-height:calc(100vh - 62px);width:auto;max-width:100%;margin:0 auto}
+
+/* ---------- SCROLL BIRD ---------- */
+#flyBird{position:fixed;left:0;top:0;z-index:60;width:150px;height:105px;pointer-events:none;opacity:0;will-change:transform,opacity;
+  filter:drop-shadow(0 12px 14px rgba(8,18,17,.28))}
+#flyBird svg{display:block;width:100%;height:100%;overflow:visible}
+@media (max-width:900px){#flyBird{width:96px;height:67px}}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:900px){
+  :root{--gut:16px}
+  .nav{display:flex;justify-content:space-between;padding:16px var(--gut)}
+  .nav-links,.nav-right .signin{display:none}
+  .ghost{font-size:22vw}
+  .overlay{background:linear-gradient(0deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 70%,transparent) 30%,transparent 62%)}
+  .hero{height:auto;min-height:100svh;display:flex;flex-direction:column;gap:34px;padding:46svh var(--gut) 28px}
+  .copy,.cluster,.strip{position:relative;left:auto;right:auto;top:auto;bottom:auto;transform:none;width:100%;max-width:none}
+  .copy{max-width:520px}
+  .cluster{max-width:520px}
+  .trust{justify-content:flex-start}
+  .card + .card,.card.drop{margin-top:0}
+  .strip{grid-template-columns:1fr auto;gap:12px 16px;align-items:center}
+  .coord{display:none}
+  .n-head{grid-template-columns:1fr;align-items:start}
+  .bento{grid-template-columns:1fr}
+  .note.dark{grid-row:auto}
+  .note.wide{grid-column:auto}
+  .eye-row{flex-direction:column;align-items:flex-start}
+  .band{grid-template-columns:1fr 1fr}
+  .stat-cell{border-left:0;border-top:1px solid rgba(255,255,255,.08);min-height:200px;padding:24px 20px}
+  .stat-cell:nth-child(-n+2){border-top:0}
+  .stat-cell:nth-child(even){border-left:1px solid rgba(255,255,255,.08)}
+}
+@media (prefers-reduced-motion:reduce){
+  .rv,.io{transition:none !important;opacity:1;transform:none;filter:none}
+  .draw,.strike path,.dive .arc{stroke-dashoffset:0 !important;transition:none !important}
+  .ruler .fill{transform:none !important;transition:none !important}
+  .dive .pt,.dive .ripple{opacity:1 !important;transform:none !important;transition:none !important}
+  .shim,.in .target .lock,.brand svg,.flap{animation:none !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div id="flyBird" aria-hidden="true">
+  <svg viewBox="-100 -70 200 140">
+    <defs>
+      <linearGradient id="fbBack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B9AA6"/><stop offset="1" stop-color="#0E7C86"/></linearGradient>
+    </defs>
+    <g transform="translate(-6,-8)"><g id="wingFar" transform="rotate(-38)">
+      <path d="M0 0 C -8 -26 -38 -46 -70 -42 C -54 -30 -34 -10 -8 6 Z" fill="#0A5B63"/>
+    </g></g>
+    <path d="M-34 -2 L-70 -8 L-72 8 L-34 8 Z" fill="#0B6670"/>
+    <ellipse cx="0" cy="0" rx="42" ry="17" fill="url(#fbBack)"/>
+    <path d="M-30 6 C -12 22 24 22 40 6 C 28 12 -8 12 -30 6 Z" fill="#E8732A"/>
+    <circle cx="38" cy="-4" r="14" fill="#0E7C86"/>
+    <path d="M30 4 C 38 12 50 10 52 2 C 44 6 36 6 30 4 Z" fill="#F3A15E"/>
+    <ellipse cx="47" cy="3" rx="5" ry="3.2" fill="#E3E8DE"/>
+    <path d="M48 -6 L92 -2 L48 2 Z" fill="#10201F"/>
+    <circle cx="43" cy="-8" r="3.4" fill="#E3E8DE"/><circle cx="43.8" cy="-8" r="1.9" fill="#10201F"/>
+    <g transform="translate(-6,-8)"><g id="wingNear" transform="rotate(-38)">
+      <path d="M0 0 C -10 -30 -46 -54 -80 -48 C -62 -34 -40 -12 -10 8 Z" fill="#0E7C86"/>
+      <path d="M-10 -8 C -30 -26 -52 -38 -72 -41" fill="none" stroke="#6FD0D6" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+      <circle cx="-34" cy="-14" r="1.8" fill="#E3E8DE" opacity=".8"/><circle cx="-46" cy="-24" r="1.8" fill="#E3E8DE" opacity=".8"/><circle cx="-24" cy="-6" r="1.6" fill="#E3E8DE" opacity=".8"/>
+    </g></g>
+  </svg>
+</div>
+
+<section class="hero" id="hero">
+  <video class="bg-video" id="vid" src="https://thinkingods.com/demos/kingfisher-hero/hero.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+  <div class="ghost" aria-hidden="true">King<em>fisher</em></div>
+  <div class="overlay"></div>
+
+  <nav class="nav rv" style="--d:0" aria-label="Primary">
+    <a class="brand" href="#top" aria-label="KINGFISHER home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="wing" fill="#0E7C86" d="M2 12.5C6 6 13 4 21.5 7c-4.5 1-7.5 3.2-9 6.5z"/><path fill="#E8732A" d="M12.5 13.5C14 10 17 8 21.5 7c-.6 5.2-4.2 9.2-9.4 10.6-1-1.3-1-2.8.4-4.1z"/><circle cx="17.2" cy="8.6" r=".9" fill="#10201F"/></svg>
+      KINGFISHER
+    </a>
+    <div class="nav-links mono">
+      <a href="#library">Library</a><a href="#templates">Templates</a><a href="#prompts">Prompts</a><a href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-right">
+      <a class="signin mono" href="#signin">Sign in</a>
+      <a class="pill-dark" href="#access">Get access</a>
+    </div>
+  </nav>
+
+  <div class="copy">
+    <div class="eyebrow mono rv" style="--d:1">Cinematic prompt library</div>
+    <h1 class="rv" style="--d:2">Websites that <em>land</em> with precision</h1>
+    <p class="lede rv" style="--d:3">Production-grade prompts for building cinematic, motion-first sites. Each one is tested, annotated and ready to paste.</p>
+    <div class="actions rv" style="--d:4">
+      <a class="cta" href="#access">Open the library <span class="arr"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span></a>
+      <a class="link-u" id="watchLink" href="#sight">See through its eyes ↗</a>
+    </div>
+  </div>
+
+  <aside class="cluster" aria-label="Library preview">
+    <div class="trust rv" style="--d:5">
+      <div class="avatars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <span class="mono">Trusted by 4,200<br>studios &amp; makers</span>
+    </div>
+    <div class="cards">
+      <article class="card rv" style="--d:6">
+        <div class="card-h mono"><span>Prompts</span><span>/ 01</span></div>
+        <figure class="thumb"><canvas width="480" height="480" data-crop="0.555,0.335,0.22"></canvas><figcaption class="mono">Head study · 014</figcaption></figure>
+        <div class="stat">Copy · Paste</div>
+        <div class="dots"><i></i><i></i><i></i></div>
+      </article>
+      <article class="card drop rv" style="--d:7">
+        <div class="card-h mono"><span>Motion</span><span>/ 02</span></div>
+        <figure class="thumb"><canvas width="480" height="480" data-crop="0.43,0.60,0.24"></canvas><figcaption class="mono">Wing study · 027</figcaption></figure>
+        <div class="stat">60fps</div>
+        <div class="dots"><i></i><i></i><i></i></div>
+      </article>
+    </div>
+  </aside>
+
+  <div class="strip rv" style="--d:8">
+    <div class="species mono">Species 01 <b>Alcedo atthis</b></div>
+    <div class="coord mono">Delhi NCR · 28.61° N</div>
+    <div class="replay-wrap"><button class="replay" id="replay" type="button" aria-label="Replay the hero animation">↻ Replay</button></div>
+  </div>
+</section>
+
+<section class="notes" id="library">
+  <div class="wrap">
+    <header class="n-head">
+      <div class="io" style="--i:0">
+        <div class="kicker mono"><b>02</b> Field notes — Why a Kingfisher</div>
+        <h2>It waits, reads the water, then <em>lands</em> in one clean motion</h2>
+      </div>
+      <p class="io" style="--i:2">KINGFISHER is built the way the bird hunts. Every prompt in the library is observed first, framed with care, then released as a single clean motion, so what you paste in lands the way it was designed to.</p>
+    </header>
+
+    <div class="bento">
+      <article class="note dark io" style="--i:0" data-dive title="Hover to replay the dive">
+        <div class="idx mono">Note 01 · The beak</div>
+        <svg class="dive" viewBox="0 0 400 230" role="img" aria-label="Dive arc from perch to water entry">
+          <line x1="0" y1="168" x2="400" y2="168" stroke="rgba(227,232,222,.25)" stroke-dasharray="3 5"/>
+          <g class="pt"><circle cx="46" cy="52" r="5" fill="#E3E8DE"/><text x="46" y="36" text-anchor="middle">PERCH</text></g>
+          <path class="draw arc" id="diveArc" pathLength="1" d="M46 52 C 130 14, 245 34, 316 168"/>
+          <g class="flyer-wrap" id="flyer" opacity="0">
+            <g transform="scale(1.35)">
+              <path class="flap" fill="#14959f" d="M-2 -1 L -9 -10 L 4 -2 Z"/>
+              <path fill="#0E7C86" d="M-10 0 C -5 -5.5 5 -5.5 10 0 C 5 4.5 -5 4.5 -10 0 Z"/>
+              <path fill="#E8732A" d="M-3 1.2 C 0 4.4 5 4 7.5 1 C 4 2.6 -1 2.6 -3 1.2 Z"/>
+              <path fill="#F3A15E" d="M10 -.8 L 22 -.4 L 10 1.8 Z"/>
+              <circle cx="5.5" cy="-1.2" r=".9" fill="#E3E8DE"/>
+            </g>
+          </g>
+          <g class="pt"><circle cx="316" cy="168" r="5" fill="#E8732A"/><text x="316" y="196" text-anchor="middle">ENTRY</text></g>
+          <ellipse class="ripple" cx="316" cy="168" rx="30" ry="7" fill="none" stroke="rgba(243,161,94,.7)"/>
+          <ellipse class="ripple" cx="316" cy="168" rx="52" ry="12" fill="none" stroke="rgba(243,161,94,.35)"/>
+        </svg>
+        <h3>The beak that reshaped the Shinkansen</h3>
+        <p>In the late 1990s an engineer at JR West studied how the kingfisher slips into water almost without a splash, and shaped the 500 Series nose after its beak. Tunnel boom faded. We borrow the idea for prompts: a profile that meets resistance gradually, not all at once.</p>
+      </article>
+
+      <article class="note light io" style="--i:1">
+        <div class="idx mono">Note 02 · Colour</div>
+        <h3>Blue without blue pigment</h3>
+        <p>The back's iridescent blue is structural. Nanoscale keratin scatters the light, so no blue pigment is involved. Our palettes are written the same way, from structure rather than swatches.</p>
+        <div class="chips">
+          <span class="chip mono"><i style="background:var(--teal)"></i>Back</span>
+          <span class="chip mono"><i style="background:var(--cobalt)"></i>Wing</span>
+          <span class="chip mono"><i style="background:var(--orange)"></i>Breast</span>
+        </div>
+      </article>
+
+      <article class="note light io" style="--i:2">
+        <div class="idx mono">Note 03 · Third eyelid</div>
+        <h3>A lid that lets it keep looking</h3>
+        <p>A translucent nictitating membrane slides across the eye as the bird enters the water, protecting it while the target stays in view. Every prompt carries a guard like it: a fallback that keeps the page legible when something fails.</p>
+      </article>
+
+      <article class="note light wide io" style="--i:3">
+        <div class="idx mono">Note 04 · Stillness</div>
+        <div class="eye-row">
+          <div>
+            <h3>Waiting is the technique</h3>
+            <p>A kingfisher can sit motionless on one twig, reading refraction, until the angle is right. Our templates begin the same way, with a still frame and a stated intent, and only then add motion.</p>
+          </div>
+          <svg class="target" viewBox="0 0 220 220" role="img" aria-label="Eye inside a target">
+            <circle class="ring" cx="110" cy="110" r="100" stroke-dasharray="2 6"/>
+            <circle class="ring" cx="110" cy="110" r="70"/>
+            <line class="cross" x1="110" y1="0" x2="110" y2="40"/><line class="cross" x1="110" y1="180" x2="110" y2="220"/>
+            <line class="cross" x1="0" y1="110" x2="40" y2="110"/><line class="cross" x1="180" y1="110" x2="220" y2="110"/>
+            <path class="lid" d="M52 110 C 76 82, 144 82, 168 110 C 144 138, 76 138, 52 110 Z"/>
+            <circle class="pupil" cx="110" cy="110" r="17"/><circle class="glint" cx="115" cy="105" r="4"/>
+            <circle class="lock" cx="110" cy="110" r="46"/>
+          </svg>
+        </div>
+      </article>
+    </div>
+
+    <div class="band io" style="--i:0">
+      <div class="stat-cell">
+        <span class="mono">Length</span>
+        <div class="big">16<small>cm</small></div>
+        <div class="ruler" aria-hidden="true"><div class="track"><div class="fill"></div></div><div class="ticks"></div></div>
+      </div>
+      <div class="stat-cell">
+        <span class="mono">Weight</span>
+        <div class="big">~40<small>g</small></div>
+        <div class="circles" aria-hidden="true"><i></i><i></i></div>
+      </div>
+      <div class="stat-cell">
+        <span class="mono">Colour</span>
+        <div class="big">Zero<small>pigment</small></div>
+        <div class="shim" aria-hidden="true"></div>
+      </div>
+      <div class="stat-cell">
+        <span class="mono">Strike</span>
+        <div class="big it">One dive</div>
+        <svg class="strike" viewBox="0 0 140 22" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 4 C 50 2, 96 6, 116 18 L 138 20"/></svg>
+      </div>
+    </div>
+
+    <div class="sight io" id="sight" style="--i:0">
+      <header class="n-head">
+        <div>
+          <div class="kicker mono"><b>03</b> Through the eye — 60 seconds</div>
+          <h2>Everything it sees <em>before</em> it moves</h2>
+        </div>
+        <p>A kingfisher's dive is decided long before the strike. Watch one hunt from behind its own eyes: the glare cut away, the refraction corrected, the target locked, then a single committed dive.</p>
+      </header>
+      <figure class="stage" id="stage">
+        <canvas id="sightCv" width="1600" height="900" role="img" aria-label="A 60 second animation of a kingfisher's point of view: perching, reading the water, locking on a fish, diving, striking and returning to the branch."></canvas>
+        <button class="bigplay" id="bigPlay" type="button" aria-label="Play the 60 second film">
+          <span class="disc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="mono">Watch · 60 sec</span>
+        </button>
+        <div class="ctrl">
+          <button id="pp" type="button" aria-label="Play"></button>
+          <input id="scrub" type="range" min="0" max="600" step="1" value="0" aria-label="Seek through the film">
+          <span class="tc mono" id="tc">0:00 / 1:00</span>
+          <button id="fs" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+        </div>
+      </figure>
+      <div class="chips2" id="chap"></div>
+    </div>
+
+    <div class="closing io" style="--i:0">
+      <p>Stop describing the page. Start <em>landing</em> it.</p>
+      <a class="cta" href="#access" style="display:inline-flex">Open the library <span class="arr"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  /* Second at which the bird lands. Change this to match your clip. */
+  const REVEAL_AT = 4.3;
+
+  const hero = document.getElementById('hero');
+  const video = document.getElementById('vid');
+  const replayBtn = document.getElementById('replay');
+  const thumbs = Array.from(document.querySelectorAll('canvas[data-crop]'));
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let revealed = false, sampled = false, hardTimer = null;
+
+  /* Match the page to the footage: sample a 1px patch near the top-right corner. */
+  function sampleBackdrop(){
+    if (sampled) return;
+    try{
+      const vw = video.videoWidth, vh = video.videoHeight;
+      if (!vw || !vh) return;
+      const c = document.createElement('canvas'); c.width = 1; c.height = 1;
+      const ctx = c.getContext('2d', { willReadFrequently:true });
+      ctx.drawImage(video, Math.floor(vw*0.94), Math.floor(vh*0.12), 1, 1, 0, 0, 1, 1);
+      const d = ctx.getImageData(0,0,1,1).data;   // throws on file:// or a tainted canvas
+      if (d[3] === 0) return;
+      const root = document.documentElement.style;
+      root.setProperty('--bg', 'rgb('+d[0]+','+d[1]+','+d[2]+')');
+      root.setProperty('--ghost', 'rgb('+Math.round(d[0]*0.955)+','+Math.round(d[1]*0.955)+','+Math.round(d[2]*0.955)+')');
+      sampled = true;
+    }catch(e){ /* keep the CSS fallback colours */ }
+  }
+
+  /* Card thumbnails are fractional crops of the video's own frame. */
+  function drawThumbs(){
+    const vw = video.videoWidth, vh = video.videoHeight;
+    if (!vw || !vh || video.readyState < 2) return;
+    thumbs.forEach(function(c){
+      try{
+        const p = c.dataset.crop.split(',').map(parseFloat);
+        const side = Math.min(p[2]*vw, vw, vh);
+        const sx = Math.max(0, Math.min(p[0]*vw, vw - side));
+        const sy = Math.max(0, Math.min(p[1]*vh, vh - side));
+        c.getContext('2d').drawImage(video, sx, sy, side, side, 0, 0, c.width, c.height);
+        c.parentElement.classList.add('has-img');
+      }catch(e){}
+    });
+  }
+
+  function reveal(){
+    if (revealed) return;
+    revealed = true;
+    hero.classList.add('is-revealed');
+    drawThumbs();
+  }
+
+  function jumpToEnd(){
+    try{ video.pause(); if (isFinite(video.duration) && video.duration > 0) video.currentTime = video.duration; }catch(e){}
+    reveal();
+  }
+
+  function armTimeout(){
+    clearTimeout(hardTimer);
+    hardTimer = setTimeout(reveal, 9000);
+  }
+
+  function start(){
+    sampleBackdrop();
+    if (reduce) return;
+    const p = video.play();
+    if (p && p.catch) p.catch(reveal);
+  }
+
+  video.addEventListener('timeupdate', function(){
+    if (video.currentTime >= REVEAL_AT) reveal();
+    if (revealed && !video.ended) drawThumbs();
+  });
+  video.addEventListener('ended', function(){ reveal(); drawThumbs(); });
+  video.addEventListener('error', reveal);
+  video.addEventListener('seeked', function(){ if (revealed) drawThumbs(); });
+  video.addEventListener('loadeddata', function(){ sampleBackdrop(); if (reduce) jumpToEnd(); else start(); });
+
+  if (reduce){
+    hero.classList.add('no-motion');
+    reveal();
+    if (video.readyState >= 1) jumpToEnd();
+    else video.addEventListener('loadedmetadata', jumpToEnd, { once:true });
+  } else if (video.readyState >= 2){
+    start();   // loadeddata may already have fired
+  } else {
+    start();   // queue playback; loadeddata will sample the backdrop
+  }
+  armTimeout();
+
+  replayBtn.addEventListener('click', function(){
+    revealed = false;
+    hero.classList.remove('is-revealed');
+    thumbs.forEach(function(c){ c.parentElement.classList.remove('has-img'); });
+    armTimeout();
+    if (reduce){ jumpToEnd(); return; }
+    try{ video.currentTime = 0; }catch(e){}
+    const p = video.play();
+    if (p && p.catch) p.catch(reveal);
+  });
+
+  /* Dive arc: the bird flies the path while the line draws behind it. */
+  let diveBusy = false;
+  function runDive(){
+    const arc = document.getElementById('diveArc'), fl = document.getElementById('flyer');
+    if (!arc || !fl) return;
+    if (reduce){ arc.style.strokeDashoffset = '0'; return; }
+    if (diveBusy) return;
+    diveBusy = true;
+    const L = arc.getTotalLength(), DUR = 2400, DELAY = 350, t0 = performance.now() + DELAY;
+    const ease = function(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2; };
+    arc.style.strokeDashoffset = '1';
+    fl.style.opacity = '0';
+    function frame(now){
+      const raw = Math.max(0, Math.min(1, (now - t0) / DUR)), t = ease(raw);
+      arc.style.strokeDashoffset = String(1 - t);
+      const p = arc.getPointAtLength(L*t), a = arc.getPointAtLength(Math.max(0, L*t - 1.5)), b = arc.getPointAtLength(Math.min(L, L*t + 1.5));
+      const ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+      fl.setAttribute('transform', 'translate(' + p.x + ' ' + p.y + ') rotate(' + ang + ')');
+      fl.style.opacity = raw > 0 && raw < 1 ? '1' : '0';
+      if (raw < 1) requestAnimationFrame(frame); else diveBusy = false;
+    }
+    requestAnimationFrame(frame);
+  }
+  function onIn(el){
+    el.classList.add('in');
+    if (el.hasAttribute('data-dive')){
+      runDive();
+      el.addEventListener('pointerenter', function(){ if (!diveBusy) runDive(); });
+    }
+  }
+
+  /* Below the fold: reveal on scroll, once. */
+  const items = document.querySelectorAll('.io');
+  if ('IntersectionObserver' in window && !reduce){
+    const io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ onIn(en.target); io.unobserve(en.target); }
+      });
+    }, { threshold:.18 });
+    items.forEach(function(el){ io.observe(el); });
+  } else {
+    items.forEach(function(el){ onIn(el); });
+  }
+})();
+</script>
+<script>
+/* KINGFISHER — 60 second point-of-view film. Every frame is a pure function of time, so scrubbing is exact. */
+(function(){
+  const stage=document.getElementById('stage'), cv=document.getElementById('sightCv');
+  if(!stage||!cv||!cv.getContext) return;
+  const ctx=cv.getContext('2d');
+  const BW=1600, BH=900, DUR=60;
+  const PAPER='#E3E8DE', ORANGE='#E8732A', ORANGE2='#F3A15E';
+  const SERIF='"Instrument Serif", Georgia, "Times New Roman", serif';
+  const MONO='"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace';
+  let S=1, TS=1;
+
+  const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const sm=t=>{t=clamp(t);return t*t*(3-2*t);};
+  const rg=(t,a,b)=>clamp((t-a)/(b-a));
+  const bell=(t,a,b)=>Math.sin(Math.PI*rg(t,a,b));
+  function rnd(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  const R=rnd(11);
+  const mk=(n,f)=>Array.from({length:n},f);
+
+  const reeds=mk(90,()=>({x:R()*BW*1.6-BW*.3,h:28+R()*120,w:.8+R()*2.2,lean:(R()-.5)*30,a:.12+R()*.3}));
+  const bokeh=mk(16,()=>({x:R()*BW,y:R(),r:18+R()*56,a:.05+R()*.1,s:.2+R()*.5,p:R()*6}));
+  const glints=mk(70,()=>({x:R()*1.4-.2,u:.05+R()*.75,p:R()*6,w:.4+R()}));
+  const fishes=[{x:.58,u:.56,s:1,ph:0},{x:.26,u:.42,s:.8,ph:1.3},{x:.8,u:.7,s:1.1,ph:2.1},{x:.4,u:.84,s:1.2,ph:3.4},{x:.9,u:.46,s:.7,ph:4.2}];
+  const bubbles=mk(48,()=>({x:R()*BW,y:R(),r:2+R()*7,s:.05+R()*.12,p:R()*6}));
+  const streaks=mk(70,()=>({a:R()*Math.PI*2,r0:R(),l:.15+R()*.4}));
+  const drops=mk(48,()=>({x:BW*.2+R()*BW*.6,y:R()*BH*.4,vx:(R()-.5)*260,vy:-(160+R()*380),r:2+R()*5}));
+  const shafts=mk(7,()=>({x:R()*BW,w:40+R()*120,p:R()*6,a:.05+R()*.1}));
+
+  const CH=[
+    [0,'01 · PERCH','Still. Let the surface settle.'],
+    [9,'02 · READ','Reading the water, cutting the glare.'],
+    [20,'03 · LOCK','Correcting for refraction.'],
+    [30,'04 · DIVE','Narrow the view. Commit.'],
+    [35.4,'04 · THIRD EYELID','Membrane closes. Target stays in view.'],
+    [38,'05 · ENTRY','No splash. The shape does the work.'],
+    [41,'06 · STRIKE','Contact.'],
+    [44,'07 · ASCENT','Up through the light.'],
+    [47.3,'08 · BREAK','Break the surface.'],
+    [50,'09 · RESET','Back to the branch.'],
+    [53,'10 · STILL','Then wait again.'],
+    [57,'','']
+  ];
+  const chapterIdx=t=>{let k=0;for(let i=0;i<CH.length;i++)if(t>=CH[i][0])k=i;return k;};
+  const pad=n=>String(n).padStart(2,'0');
+  const mmss=t=>{const s=Math.floor(t);return Math.floor(s/60)+':'+pad(s%60);};
+
+  function txt(s,x,y,o){
+    o=o||{};
+    ctx.font=o.font||('500 '+(13*TS)+'px '+MONO);
+    ctx.fillStyle=o.col||PAPER; ctx.textAlign=o.align||'left'; ctx.textBaseline='alphabetic';
+    try{ctx.letterSpacing=o.ls===undefined?'2px':o.ls;}catch(e){}
+    const ga=ctx.globalAlpha; ctx.globalAlpha=ga*(o.a===undefined?1:o.a);
+    ctx.fillText(s,x,y); ctx.globalAlpha=ga;
+  }
+  function brackets(cx,cy,s,col,lw){
+    ctx.strokeStyle=col; ctx.lineWidth=lw; const a=s*.38;
+    [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(function(q){
+      const x=cx+q[0]*s, y=cy+q[1]*s;
+      ctx.beginPath(); ctx.moveTo(x-q[0]*a,y); ctx.lineTo(x,y); ctx.lineTo(x,y-q[1]*a); ctx.stroke();
+    });
+  }
+
+  /* ---------- camera ---------- */
+  function cam(t){
+    const e=Math.pow(rg(t,30,38),1.8);
+    let hy=BH*.40, zoom=1;
+    if(t>=30&&t<47.4){hy=lerp(BH*.40,-BH*.5,e);zoom=lerp(1,1.5,e*e);}
+    if(t>=47.4){const up=sm(rg(t,47.4,50.5));hy=lerp(-BH*.5,BH*.40,up);zoom=lerp(1.5,1,up);}
+    let glare=t<9?1:(t<18?lerp(1,.35,sm(rg(t,9,18))):.35);
+    if(t>=50) glare=lerp(.35,.8,sm(rg(t,50,54)));
+    const phase=t*.12+16*Math.pow(rg(t,30,39),3)+3*sm(rg(t,47.4,50));
+    const amp=lerp(1,.35,sm(rg(t,52,56)));
+    let shx=0,shy=0;
+    [50.4,51.4].forEach(function(ti){if(t>ti){const d=t-ti,k=Math.exp(-d*9);shy+=Math.sin(d*55)*14*k;shx+=Math.sin(d*43)*6*k;}});
+    return {hy,zoom,glare,phase,amp,shx,shy};
+  }
+  function tunnelAmt(t){
+    if(t<30) return .12;
+    if(t<38) return lerp(.12,.85,Math.pow(rg(t,30,38),1.8));
+    if(t<41.25) return lerp(.85,.6,sm(rg(t,38,39.5)));
+    if(t<47.4) return lerp(.6,.25,rg(t,41.25,46));
+    return lerp(.25,.12,sm(rg(t,47.4,50.5)));
+  }
+
+  /* ---------- air scene ---------- */
+  function drawSky(t,c){
+    const hy=c.hy; if(hy<=-10) return;
+    const g=ctx.createLinearGradient(0,hy-BH*.75,0,hy);
+    g.addColorStop(0,'#CDD8C8'); g.addColorStop(1,'#BDCABA');
+    ctx.fillStyle=g; ctx.fillRect(-BW*.5,Math.min(-BH,hy-BH),BW*2,hy+BH+(hy<0?-hy:0));
+    for(const b of bokeh){
+      const x=b.x+Math.sin(t*b.s+b.p)*24, y=hy-(.1+b.y)*hy*.9;
+      ctx.fillStyle='rgba(255,255,255,'+b.a+')'; ctx.beginPath(); ctx.arc(x,y,b.r,0,6.283); ctx.fill();
+    }
+    const sg=ctx.createLinearGradient(0,hy-26,0,hy); sg.addColorStop(0,'rgba(60,96,88,0)'); sg.addColorStop(1,'rgba(60,96,88,.28)');
+    ctx.fillStyle=sg; ctx.fillRect(-BW*.5,hy-26,BW*2,26);
+    ctx.lineCap='round';
+    for(const r of reeds){
+      const sway=Math.sin(t*.7+r.x*.01)*4, by=hy+1;
+      ctx.strokeStyle='rgba(44,64,58,'+r.a+')'; ctx.lineWidth=r.w;
+      ctx.beginPath(); ctx.moveTo(r.x,by); ctx.quadraticCurveTo(r.x+r.lean*.4+sway,by-r.h*.55,r.x+r.lean+sway*1.6,by-r.h*.85); ctx.stroke();
+    }
+    const hg=ctx.createLinearGradient(0,hy-140,0,hy+40);
+    hg.addColorStop(0,'rgba(238,244,234,0)'); hg.addColorStop(.7,'rgba(238,244,234,.5)'); hg.addColorStop(1,'rgba(238,244,234,0)');
+    ctx.fillStyle=hg; ctx.fillRect(-BW*.5,hy-140,BW*2,180);
+  }
+  function drawWater(t,c){
+    const hy=c.hy, x0=-BW*.5, xw=BW*2;
+    const g=ctx.createLinearGradient(0,hy,0,BH);
+    g.addColorStop(0,'#A9BCAB'); g.addColorStop(.45,'#5E9291'); g.addColorStop(1,'#12434A');
+    ctx.fillStyle=g; ctx.fillRect(x0,hy,xw,BH*2.2-hy);
+    const N=32;
+    for(let i=0;i<N;i++){
+      const u=((((i+c.phase)%N)+N)%N)/N;
+      const y=hy+(BH-hy)*Math.pow(u,2.1);
+      const a=(.05+.32*u)*(.55+.45*c.glare);
+      ctx.strokeStyle='rgba(236,246,240,'+a.toFixed(3)+')'; ctx.lineWidth=.6+2.6*u;
+      const amp=(1+7*u)*c.amp;
+      ctx.beginPath();
+      for(let x=x0;x<=x0+xw;x+=50){
+        const yy=y+Math.sin(x*.011+t*.8+i*1.7)*amp+Math.sin(x*.027-t*.5+i)*amp*.4;
+        if(x===x0) ctx.moveTo(x,yy); else ctx.lineTo(x,yy);
+      }
+      ctx.stroke();
+    }
+    for(const k of glints){
+      const y=hy+(BH-hy)*Math.pow(k.u,2.1), tw=.5+.5*Math.sin(t*2.2+k.p);
+      ctx.fillStyle='rgba(255,255,255,'+(.5*tw*c.glare*(1-k.u*.4)).toFixed(3)+')';
+      ctx.beginPath(); ctx.ellipse(k.x*BW,y,3+30*k.u*k.u*k.w,1+4*k.u*k.w,0,0,6.283); ctx.fill();
+    }
+  }
+  function fishScreen(i,t,c){
+    const f=fishes[i];
+    let x=f.x*BW+Math.sin(t*.4+f.ph)*34, y=c.hy+(BH-c.hy)*Math.pow(f.u,2.1), sz=(26+110*Math.pow(f.u,2.1))*f.s;
+    if(i===0){const b=Math.pow(rg(t,30,38),.9);x=lerp(x,BW/2,b);y=lerp(y,BH*.52,b);sz*=lerp(1,3.8,b*b);}
+    return {x,y,sz};
+  }
+  function fishBody(x,y,sz,t,rot,rich,ph){
+    ctx.save(); ctx.translate(x,y); ctx.rotate(rot||0);
+    const w=Math.sin(t*5+(ph||0))*sz*.12;
+    if(rich){
+      const g=ctx.createLinearGradient(0,-sz*.3,0,sz*.3); g.addColorStop(0,'#2c6a70'); g.addColorStop(1,'#d6ebe6'); ctx.fillStyle=g;
+    }
+    ctx.beginPath(); ctx.ellipse(0,0,sz,sz*.3,0,0,6.283); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-sz*.8,0); ctx.lineTo(-sz*1.4,-sz*.34+w); ctx.lineTo(-sz*1.4,sz*.34+w); ctx.closePath(); ctx.fill();
+    if(rich){
+      ctx.strokeStyle='rgba(232,115,42,.85)'; ctx.lineWidth=Math.max(1,sz*.05); ctx.beginPath(); ctx.moveTo(-sz*.5,0); ctx.lineTo(sz*.55,0); ctx.stroke();
+      ctx.fillStyle='#10201F'; ctx.beginPath(); ctx.arc(sz*.64,-sz*.05,Math.max(1.5,sz*.055),0,6.283); ctx.fill();
+    }
+    ctx.restore();
+  }
+  function drawFishesAir(t,c){
+    const others=clamp(1-rg(t,30,34)+rg(t,48,51));
+    for(let i=0;i<fishes.length;i++){
+      if(i===0&&t>=41.2) continue;
+      const fz=fishScreen(i,t,c), a=(i===0?.5:.34)*(i===0?1:others);
+      if(a<.01) continue;
+      ctx.fillStyle='rgba(8,38,40,'+a.toFixed(3)+')';
+      fishBody(fz.x,fz.y,fz.sz,t,0,false,fishes[i].ph);
+    }
+  }
+  const SEQ=[[9.6,1],[12.2,2],[14.8,3],[17.2,4],[19.4,0]];
+  function drawTargeting(t,c){
+    if(t<9.4||t>=38) return;
+    let k=-1; for(let i=0;i<SEQ.length;i++) if(t>=SEQ[i][0]) k=i;
+    if(k<0) return;
+    const cur=fishScreen(SEQ[k][1],t,c), prev=k>0?fishScreen(SEQ[k-1][1],t,c):cur;
+    const m=sm(rg(t,SEQ[k][0],SEQ[k][0]+.5));
+    const x=lerp(prev.x,cur.x,m), y=lerp(prev.y,cur.y,m);
+    const lock=sm(rg(t,19.6,20.6))>.5;
+    let s=64; if(t>=20) s=lerp(150,64,sm(rg(t,20,23))); if(t>=30) s=Math.max(64,cur.sz*.62);
+    const fade=sm(rg(t,9.4,10))*(1-sm(rg(t,37,38)));
+    ctx.save(); ctx.globalAlpha=fade;
+    if(t>=22&&t<30){
+      const ga=sm(rg(t,22,23))*(1-sm(rg(t,29,30)));
+      ctx.save(); ctx.globalAlpha=fade*ga; ctx.setLineDash([6,6]); ctx.strokeStyle=ORANGE2; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.ellipse(cur.x-cur.sz*.25,cur.y-cur.sz*.55,cur.sz,cur.sz*.3,0,0,6.283); ctx.stroke(); ctx.restore();
+    }
+    brackets(x,y,s,lock?ORANGE:'rgba(236,244,238,.9)',lock?3:2);
+    txt(lock?(t<30?'LOCK':'LOCKED'):'T-0'+SEQ[k][1],x,y-s-14,{align:'center',col:lock?ORANGE2:PAPER});
+    ctx.restore();
+  }
+  function drawAir(t,c){
+    ctx.save();
+    ctx.translate(BW/2,BH/2); ctx.scale(c.zoom,c.zoom); ctx.translate(-BW/2,-BH/2);
+    drawSky(t,c); drawWater(t,c); drawFishesAir(t,c); drawTargeting(t,c);
+    ctx.restore();
+  }
+
+  /* ---------- underwater scene ---------- */
+  function drawUnder(t,a){
+    ctx.save(); ctx.globalAlpha=a;
+    const g=ctx.createLinearGradient(0,0,0,BH); g.addColorStop(0,'#58AEAC'); g.addColorStop(.4,'#0E7C86'); g.addColorStop(1,'#04191B');
+    ctx.fillStyle=g; ctx.fillRect(-60,-60,BW+120,BH+120);
+    const lb=sm(rg(t,41.8,46.5));
+    const gr=ctx.createRadialGradient(BW/2,-40,10,BW/2,-40,lerp(.25,1.9,lb)*BW);
+    gr.addColorStop(0,'rgba(236,250,246,'+(.25+.7*lb).toFixed(3)+')'); gr.addColorStop(1,'rgba(236,250,246,0)');
+    ctx.fillStyle=gr; ctx.fillRect(0,0,BW,BH);
+    for(const s of shafts){
+      const x=s.x+Math.sin(t*.3+s.p)*40, al=s.a*(.6+.4*Math.sin(t+s.p))*(1+lb*1.5);
+      ctx.fillStyle='rgba(235,250,246,'+al.toFixed(3)+')';
+      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x+s.w,0); ctx.lineTo(x+s.w+260,BH); ctx.lineTo(x+200,BH); ctx.closePath(); ctx.fill();
+    }
+    const flow=t<41.2?-(t-38)*1.6:-(3.2*1.6)+(t-41.2)*2.4;
+    for(const b of bubbles){
+      const y=((((b.y+b.s*flow)%1)+1)%1)*BH, x=b.x+Math.sin(t+b.p)*12;
+      ctx.fillStyle='rgba(235,250,246,.12)'; ctx.strokeStyle='rgba(235,250,246,.5)'; ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.arc(x,y,b.r,0,6.283); ctx.fill(); ctx.stroke();
+    }
+    if(t<46){
+      for(let i=1;i<fishes.length;i++){
+        const f=fishes[i], x=f.x*BW+Math.sin(t*.3+f.ph)*80, y=BH*(.22+f.u*.55)+Math.sin(t*.7+f.ph)*14;
+        ctx.fillStyle='rgba(3,26,28,.55)'; fishBody(x,y,36*f.s*(1+.3*f.u),t,0,false,f.ph);
+      }
+    }
+    if(t<41.25){
+      const p=sm(rg(t,38.4,41.1)), sz=lerp(18,150,p*p);
+      const x=BW/2+Math.sin(t*2.2)*60*(1-p), y=BH*.5+Math.sin(t*1.7)*30*(1-p);
+      fishBody(x,y,sz,t,0,true,0);
+      if(t>=39.2){
+        const s=sz*.62+34*(1-p);
+        brackets(x,y,s,ORANGE,3);
+        txt('LOCKED',x,y-s-14,{align:'center',col:ORANGE2});
+      }
+    }
+    ctx.restore();
+  }
+
+  /* ---------- beak, catch, twig ---------- */
+  function apexY(t){
+    let y=BH*lerp(.80,.60,Math.pow(rg(t,30,38),1.8));
+    if(t>=38) y=BH*.60;
+    if(t>=40.9&&t<42.2){const l=t<41.2?sm(rg(t,40.9,41.2)):1-sm(rg(t,41.25,42.2));y=lerp(BH*.60,BH*.46,l);}
+    if(t>=47.4) y=lerp(BH*.60,BH*.80,sm(rg(t,47.4,50.5)));
+    y+=Math.sin(t*1.3)*3;
+    y+=Math.sin(Math.PI*rg(t,52.5,53.1))*10;
+    [50.4,51.4].forEach(function(ti){if(t>=ti&&t<ti+.35) y+=Math.sin(Math.PI*rg(t,ti,ti+.35))*30;});
+    return y;
+  }
+  function drawBeakCatch(t){
+    const ay=apexY(t), bw=BW*.115, cx=BW/2;
+    const g=ctx.createLinearGradient(0,ay,0,BH); g.addColorStop(0,'#2a3a37'); g.addColorStop(.25,'#10201F'); g.addColorStop(1,'#08110f');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(cx,ay);
+    ctx.bezierCurveTo(cx-bw*.25,ay+(BH-ay)*.35,cx-bw*.8,ay+(BH-ay)*.7,cx-bw,BH+20);
+    ctx.lineTo(cx+bw,BH+20);
+    ctx.bezierCurveTo(cx+bw*.8,ay+(BH-ay)*.7,cx+bw*.25,ay+(BH-ay)*.35,cx,ay); ctx.fill();
+    ctx.strokeStyle='rgba(227,232,222,.16)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(cx,ay+4); ctx.lineTo(cx,BH); ctx.stroke();
+    if(t>=41.25&&t<53.1){
+      const sz=66*(1-sm(rg(t,52.4,53.0)));
+      const y=lerp(BH*.5,ay+sz*.12,sm(rg(t,41.25,41.65)));
+      let rot=Math.sin(t*3)*.12; [50.4,51.4].forEach(function(ti){if(t>=ti&&t<ti+.5) rot+=Math.sin((t-ti)*24)*.3*Math.exp(-(t-ti)*6);});
+      if(sz>1) fishBody(cx,y,sz,t,rot,true,0);
+    }
+  }
+  function drawTwig(t,uwA){
+    const a=clamp(1-sm(rg(t,30,34))+sm(rg(t,48,50))); if(a<.02||uwA>.5) return;
+    ctx.save(); ctx.globalAlpha=a*(1-uwA); ctx.strokeStyle='#1c2b28'; ctx.fillStyle='#2F4A44'; ctx.lineCap='round';
+    const sw=Math.sin(t*.9)*3;
+    ctx.lineWidth=18; ctx.beginPath(); ctx.moveTo(-40,BH*.9+sw); ctx.bezierCurveTo(BW*.08,BH*.88,BW*.16,BH*.97,BW*.27,BH*1.02); ctx.stroke();
+    ctx.lineWidth=7; ctx.beginPath(); ctx.moveTo(BW*.1,BH*.905+sw); ctx.quadraticCurveTo(BW*.14,BH*.8,BW*.2,BH*.76+sw); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(BW*.215,BH*.75+sw,34,11,-.7,0,6.283); ctx.fill();
+    ctx.restore();
+  }
+
+  /* ---------- overlays ---------- */
+  function refraction(t){
+    const a=sm(rg(t,21,22))*(1-sm(rg(t,29,30))); if(a<.01) return;
+    const sc=TS>1?1.4:1, pw=340, ph=220, px=BW-72-pw*sc, py=130;
+    ctx.save(); ctx.globalAlpha=a; ctx.translate(px,py); ctx.scale(sc,sc);
+    ctx.fillStyle='rgba(10,25,24,.6)'; ctx.strokeStyle='rgba(233,240,230,.25)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.rect(0,0,pw,ph); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='rgba(14,124,134,.28)'; ctx.fillRect(0,100,pw,ph-100);
+    ctx.strokeStyle='rgba(236,246,240,.65)'; ctx.beginPath(); ctx.moveTo(0,100); ctx.lineTo(pw,100); ctx.stroke();
+    const E={x:44,y:40}, P={x:170,y:100}, A={x:254,y:140}, Rl={x:250,y:175};
+    ctx.fillStyle=PAPER; ctx.beginPath(); ctx.arc(E.x,E.y,5,0,6.283); ctx.fill();
+    const p1=sm(rg(t,21.4,23.2)), p2=sm(rg(t,23.2,25.2));
+    ctx.setLineDash([5,5]); ctx.strokeStyle=ORANGE2; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(E.x,E.y); ctx.lineTo(lerp(E.x,A.x,p1),lerp(E.y,A.y,p1)); ctx.stroke(); ctx.setLineDash([]);
+    if(p2>0){
+      ctx.strokeStyle=ORANGE; ctx.lineWidth=2.2; ctx.beginPath(); ctx.moveTo(E.x,E.y);
+      const q=Math.min(1,p2*2); ctx.lineTo(lerp(E.x,P.x,q),lerp(E.y,P.y,q));
+      if(p2>.5){const r2=(p2-.5)*2; ctx.lineTo(lerp(P.x,Rl.x,r2),lerp(P.y,Rl.y,r2));}
+      ctx.stroke();
+    }
+    ctx.setLineDash([4,4]); ctx.strokeStyle=ORANGE2; ctx.globalAlpha=a*sm(rg(t,24,25));
+    ctx.beginPath(); ctx.ellipse(A.x,A.y,18,6,0,0,6.283); ctx.stroke(); ctx.setLineDash([]);
+    ctx.globalAlpha=a*sm(rg(t,25,26)); ctx.fillStyle=ORANGE; ctx.beginPath(); ctx.ellipse(Rl.x,Rl.y,18,6,0,0,6.283); ctx.fill();
+    ctx.globalAlpha=a;
+    txt('SIDE VIEW',14,22,{font:'500 10px '+MONO,a:.8});
+    txt('SURFACE',pw-12,92,{font:'500 9px '+MONO,align:'right',a:.7});
+    txt('APPARENT',A.x-26,A.y-12,{font:'500 9px '+MONO,align:'right',col:ORANGE2,a:sm(rg(t,24,25))});
+    txt('REAL',Rl.x-26,Rl.y+16,{font:'500 9px '+MONO,align:'right',col:ORANGE,a:sm(rg(t,25,26))});
+    ctx.restore();
+  }
+  function drawHud(t){
+    const A=1-sm(rg(t,56.6,57.4)); if(A<.01) return;
+    ctx.save(); ctx.globalAlpha=A;
+    const sg=ctx.createLinearGradient(0,BH*.68,0,BH); sg.addColorStop(0,'rgba(8,20,19,0)'); sg.addColorStop(1,'rgba(8,20,19,.55)');
+    ctx.fillStyle=sg; ctx.fillRect(0,BH*.68,BW,BH*.32);
+    const tg=ctx.createLinearGradient(0,0,0,BH*.24); tg.addColorStop(0,'rgba(8,20,19,.62)'); tg.addColorStop(1,'rgba(8,20,19,0)');
+    ctx.fillStyle=tg; ctx.fillRect(0,0,BW,BH*.24);
+    ctx.strokeStyle='rgba(233,240,230,.6)'; ctx.lineWidth=2; const m=44, L=46;
+    [[m,m,1,1],[BW-m,m,-1,1],[BW-m,BH-m,-1,-1],[m,BH-m,1,-1]].forEach(function(q){
+      ctx.beginPath(); ctx.moveTo(q[0],q[1]+q[3]*L); ctx.lineTo(q[0],q[1]); ctx.lineTo(q[0]+q[2]*L,q[1]); ctx.stroke();
+    });
+    ctx.fillStyle=ORANGE; ctx.globalAlpha=A*(Math.sin(t*5)>0?1:.25); ctx.beginPath(); ctx.arc(76,86,6,0,6.283); ctx.fill(); ctx.globalAlpha=A;
+    txt('FIELD CAM 01 · ALCEDO ATTHIS',94,91);
+    txt('28.61° N · DELHI NCR',BW-72,91,{align:'right'});
+    txt('T+ '+pad(Math.floor(t/60))+':'+pad(Math.floor(t%60)),BW-72,BH-72,{align:'right'});
+    if(t>=9&&t<20){
+      const a=sm(rg(t,9,10))*(1-sm(rg(t,19,20)));
+      txt('POLARISED VIEW · GLARE −'+Math.round(65*sm(rg(t,9,18)))+'%',BW/2,160,{align:'center',a:a});
+    }
+    if(t>=20&&t<30){
+      const a=sm(rg(t,20,21))*(1-sm(rg(t,29,30)));
+      txt('REFRACTION n = 1.33 · COMPENSATING',BW/2,160,{align:'center',a:a});
+    }
+    if(t>=30&&t<41.3){
+      const a=sm(rg(t,30.4,31.4))*(1-sm(rg(t,40.6,41.2)));
+      const v=6.2*Math.pow(rg(t,30,38),1.6);
+      txt('DESCENT '+v.toFixed(1)+' M/S',BW/2,160,{align:'center',col:ORANGE2,a:a});
+      const lx=BW-130, off=(t*60*(.3+v/6))%34;
+      ctx.strokeStyle='rgba(233,240,230,.55)'; ctx.lineWidth=1.5; ctx.globalAlpha=A*a;
+      for(let i=-7;i<=7;i++){const y=BH/2+i*34+off-17; ctx.beginPath(); ctx.moveTo(lx,y); ctx.lineTo(lx+(i%2?12:22),y); ctx.stroke();}
+      ctx.fillStyle=ORANGE; ctx.beginPath(); ctx.moveTo(lx-8,BH/2); ctx.lineTo(lx-22,BH/2-8); ctx.lineTo(lx-22,BH/2+8); ctx.closePath(); ctx.fill();
+      ctx.globalAlpha=A;
+    }
+    if(t>=41&&t<42.4) txt('CONTACT',BW/2,220,{align:'center',col:ORANGE2,a:bell(t,41,42.4)});
+    const k=chapterIdx(t), ch=CH[k];
+    if(ch[1]){
+      const t0=ch[0], t1=CH[k+1]?CH[k+1][0]:DUR;
+      const ca=sm(rg(t,t0,t0+.7))*(1-sm(rg(t,t1-.5,t1)));
+      const y=BH-70-46*TS;
+      txt(ch[1],72,y,{col:ORANGE2,a:ca});
+      txt(ch[2],72,y+46*TS,{font:'italic '+(40*TS)+'px '+SERIF,ls:'0px',a:ca});
+    }
+    ctx.restore();
+  }
+  function overlays(t,c,uwA){
+    const sp=sm(rg(t,31,36.5))*(1-sm(rg(t,38,38.6)));
+    if(sp>.02){
+      ctx.save(); ctx.lineCap='round';
+      for(const s of streaks){
+        const r1=BW*(.14+s.r0*.45)*(1+sp*.6), r2=r1+BW*s.l*sp*.55, ca=Math.cos(s.a), sa=Math.sin(s.a);
+        ctx.strokeStyle='rgba(236,246,240,'+(.38*sp).toFixed(3)+')'; ctx.lineWidth=1.5+sp*2;
+        ctx.beginPath(); ctx.moveTo(BW/2+ca*r1,BH/2+sa*r1*.62); ctx.lineTo(BW/2+ca*r2,BH/2+sa*r2*.62); ctx.stroke();
+      }
+      ctx.restore();
+    }
+    const tv=tunnelAmt(t), r0=lerp(BW*.62,BW*.2,tv);
+    const vg=ctx.createRadialGradient(BW/2,BH/2,r0,BW/2,BH/2,BW*.78);
+    vg.addColorStop(0,'rgba(8,22,22,0)'); vg.addColorStop(1,'rgba(8,22,22,'+(.15+.8*tv).toFixed(3)+')');
+    ctx.fillStyle=vg; ctx.fillRect(0,0,BW,BH);
+    const mem=sm(rg(t,35.4,36.1))*(1-sm(rg(t,44.6,45.3)));
+    if(mem>.01){
+      const x=mem*BW*1.1;
+      ctx.fillStyle='rgba(214,236,236,.14)'; ctx.fillRect(0,0,Math.min(x,BW),BH);
+      const eg=ctx.createLinearGradient(x-50,0,x,0); eg.addColorStop(0,'rgba(255,255,255,0)'); eg.addColorStop(1,'rgba(255,255,255,.38)');
+      ctx.fillStyle=eg; ctx.fillRect(x-50,0,50,BH);
+    }
+    if(t>=38&&t<40.6){
+      for(let k=0;k<3;k++){
+        const q=rg(t,38+k*.25,39.3+k*.25), rx=lerp(20,700,q);
+        ctx.strokeStyle='rgba(255,255,255,'+((1-q)*.8).toFixed(3)+')'; ctx.lineWidth=3;
+        ctx.beginPath(); ctx.ellipse(BW/2,BH/2,rx,rx*.32,0,0,6.283); ctx.stroke();
+      }
+    }
+    if(t>=47.1&&t<49.6){
+      const tt=t-47.1, da=1-rg(t,48.2,49.6);
+      ctx.fillStyle='rgba(245,252,250,.85)';
+      for(const d of drops){
+        const x=d.x+d.vx*tt, y=BH*.72+d.y*.3+d.vy*tt+620*tt*tt;
+        ctx.globalAlpha=da*.85; ctx.beginPath(); ctx.arc(x,y,d.r,0,6.283); ctx.fill();
+      }
+      ctx.globalAlpha=1;
+    }
+    const fl=bell(t,38,38.9)*.85+bell(t,41.05,41.5)*.4+bell(t,46.6,47.5)*.95;
+    if(fl>.01){ctx.fillStyle='rgba(245,252,250,'+clamp(fl).toFixed(3)+')'; ctx.fillRect(0,0,BW,BH);}
+    refraction(t);
+    drawHud(t);
+    const ta=sm(rg(t,56.6,57.8));
+    if(ta>.01){
+      ctx.fillStyle='rgba(15,29,28,'+ta.toFixed(3)+')'; ctx.fillRect(0,0,BW,BH);
+      const b=sm(rg(t,57.4,58.5)), c2=sm(rg(t,58.3,59.2)), big=150*(TS>1?1.4:1);
+      txt('One dive.',BW/2,BH/2+big*.1,{font:'italic '+big+'px '+SERIF,ls:'-1px',align:'center',col:ORANGE,a:b});
+      ctx.globalAlpha=c2; ctx.fillStyle=ORANGE; ctx.fillRect(BW/2-14,BH/2+big*.3,28,2); ctx.globalAlpha=1;
+      txt('KINGFISHER · CINEMATIC PROMPT LIBRARY',BW/2,BH/2+big*.3+44*TS,{align:'center',a:c2});
+    }
+  }
+
+  function render(t){
+    t=clamp(t,0,DUR);
+    ctx.setTransform(S,0,0,S,0,0); ctx.globalAlpha=1;
+    ctx.fillStyle='#BDCABA'; ctx.fillRect(0,0,BW,BH);
+    const c=cam(t), uwA=sm(rg(t,38.2,38.9))*(1-sm(rg(t,46.5,47.1)));
+    ctx.save(); ctx.translate(c.shx,c.shy);
+    if(uwA<1) drawAir(t,c);
+    if(uwA>0) drawUnder(t,uwA);
+    drawTwig(t,uwA);
+    drawBeakCatch(t);
+    ctx.restore();
+    overlays(t,c,uwA);
+  }
+
+  /* ---------- player ---------- */
+  const pp=document.getElementById('pp'), scrub=document.getElementById('scrub'), tc=document.getElementById('tc');
+  const bigPlay=document.getElementById('bigPlay'), fsBtn=document.getElementById('fs'), chapBox=document.getElementById('chap');
+  const IC_PLAY='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
+  const IC_PAUSE='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>';
+  const IC_REPLAY='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg>';
+  let t=0, playing=false, poster=true, last=0, raf=0, autoView=false, lastChip=-1;
+
+  const chips=[];
+  CH.forEach(function(ch,i){
+    if(i===4||i===CH.length-1) return;
+    const b=document.createElement('button'); b.type='button'; b.className='ch'; b.textContent=ch[1]; b.dataset.i=i;
+    b.addEventListener('click',function(){poster=false;t=ch[0]+.05;stage.classList.add('started');draw();play();});
+    chapBox.appendChild(b); chips.push(b);
+  });
+
+  function setIcon(){
+    const ended=t>=DUR-.02&&!playing;
+    pp.innerHTML=playing?IC_PAUSE:(ended?IC_REPLAY:IC_PLAY);
+    pp.setAttribute('aria-label',playing?'Pause':(ended?'Replay':'Play'));
+  }
+  function draw(){
+    render(poster?6.5:t);
+    scrub.value=String(Math.round(t*10));
+    tc.textContent=mmss(t)+' / 1:00';
+    const k=chapterIdx(t), kk=k===4?3:k;
+    if(kk!==lastChip){lastChip=kk;chips.forEach(function(b){b.classList.toggle('on',poster?false:+b.dataset.i===kk);});}
+  }
+  function tick(now){
+    if(!playing) return;
+    const dt=Math.min(.1,(now-last)/1000); last=now; t+=dt;
+    if(t>=DUR){t=DUR;playing=false;setIcon();}
+    draw();
+    if(playing) raf=requestAnimationFrame(tick);
+  }
+  function play(){
+    if(t>=DUR-.05) t=0;
+    poster=false; playing=true; last=performance.now();
+    stage.classList.add('started'); setIcon();
+    cancelAnimationFrame(raf); raf=requestAnimationFrame(tick);
+  }
+  function pause(){playing=false;cancelAnimationFrame(raf);setIcon();}
+  pp.addEventListener('click',function(){playing?pause():play();});
+  bigPlay.addEventListener('click',function(){t=0;play();});
+  scrub.addEventListener('input',function(){poster=false;t=(+scrub.value)/10;stage.classList.add('started');draw();setIcon();});
+  if(document.fullscreenEnabled&&stage.requestFullscreen){
+    fsBtn.addEventListener('click',function(){
+      if(document.fullscreenElement) document.exitFullscreen(); else stage.requestFullscreen().catch(function(){});
+    });
+  } else fsBtn.style.display='none';
+
+  function resize(){
+    const cssW=cv.clientWidth||stage.clientWidth||960, dpr=Math.min(window.devicePixelRatio||1,2);
+    cv.width=Math.round(cssW*dpr); cv.height=Math.round(cssW*9/16*dpr);
+    S=cv.width/BW; TS=cssW<720?1.8:(cssW<1000?1.3:1);
+    draw();
+  }
+  if('ResizeObserver' in window) new ResizeObserver(resize).observe(stage); else window.addEventListener('resize',resize);
+  resize(); setIcon();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(draw);
+
+  /* pause when scrolled away; optionally start when arriving from the hero link */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(!en.isIntersecting&&playing) pause();
+        if(en.isIntersecting&&en.intersectionRatio>.45&&autoView){autoView=false;t=0;play();}
+      });
+    },{threshold:[0,.45]}).observe(stage);
+  }
+  const wl=document.getElementById('watchLink');
+  if(wl) wl.addEventListener('click',function(){if(!playing) autoView=true;});
+})();
+</script>
+<script>
+/* Scroll bird: wings beat with scroll distance and fold when you stop. */
+(function(){
+  const el=document.getElementById('flyBird'); if(!el) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){el.remove();return;}
+  const wn=document.getElementById('wingNear'), wf=document.getElementById('wingFar');
+  let phase=0, amp=0, lastY=window.scrollY, vel=0;
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+  function frame(){
+    const y=window.scrollY, dy=y-lastY; lastY=y;
+    phase+=Math.abs(dy)*.05+.025;
+    vel+=(dy-vel)*.18;
+    const target=Math.min(1,Math.abs(dy)/14);
+    amp+=(target-amp)*(target>amp?.35:.05);
+    const vh=window.innerHeight, vw=window.innerWidth, small=vw<900;
+    const maxS=Math.max(1,document.documentElement.scrollHeight-vh), p=clamp(y/maxS,0,1);
+    const flap=Math.sin(phase), a=Math.max(amp,.07);
+    const x=vw*(small?.76:.87)+Math.sin(p*Math.PI*6)*vw*(small?.07:.06);
+    const yy=vh*(.24+.5*p)-flap*9*a;
+    const tilt=clamp(vel*.9,-24,24);
+    el.style.transform='translate('+x.toFixed(1)+'px,'+yy.toFixed(1)+'px) translate(-50%,-50%) rotate('+tilt.toFixed(1)+'deg)';
+    el.style.opacity=clamp((y-vh*.35)/(vh*.25),0,1).toFixed(2);
+    wn.setAttribute('transform','rotate('+(-38+58*a*flap).toFixed(1)+')');
+    wf.setAttribute('transform','rotate('+(-38+50*a*Math.sin(phase+.6)).toFixed(1)+')');
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
