@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyElite - Premium Private Jets | Edition -kartikay07</title>
+    <meta name="description" content="SkyElite luxury private jet charter with custom edition -kartikay07, transparent rates, bespoke travel, and seamless booking." />
+    <meta property="og:title" content="SkyElite - Premium Private Jets" />
+    <meta property="og:description" content="SkyElite luxury private jet charter with custom edition -kartikay07, transparent rates, bespoke travel, and seamless booking." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts: Inter (400, 500, 600, 700) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS (for standalone HTML usage) and Vite index.css support -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/src/index.css" />
+
+    <style>
+      body, html {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      .bg-brand {
+        background-color: #202A36;
+      }
+      .hover-bg-brand:hover {
+        background-color: #1a2229;
+      }
+      .text-brand {
+        color: #202A36;
+      }
+      .border-brand {
+        border-color: #202A36;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-900 selection:bg-[#202A36] selection:text-white antialiased">
+    <!-- Outer Container: min-h-screen, bg-gray-50 -->
+    <div class="min-h-screen bg-gray-50">
+
+      <!-- Hero Section: relative, h-screen, overflow-hidden -->
+      <section id="start" class="relative h-screen overflow-hidden">
+        <!-- Video Background: covers entire viewport (100vh) using object-cover -->
+        <video
+          id="heroVideo"
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_091828_e240eb17-6edc-4129-ad9d-98678e3fd238.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          class="absolute inset-0 w-full h-full object-cover z-0"
+        ></video>
+
+        <!-- Subtle ambient vignette overlay for high contrast readability -->
+        <div class="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-black/30 z-0 pointer-events-none"></div>
+
+        <!-- Content Wrapper: relative, h-full, flex flex-col -->
+        <div class="relative h-full flex flex-col z-10">
+          
+          <!-- Navigation Bar: Max width 7xl, centered with px-8 py-6 -->
+          <nav class="w-full">
+            <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
+              
+              <!-- Brand Name on the left: text-2xl, font-semibold, text-gray-900 -->
+              <div class="flex items-center gap-3">
+                <a href="#start" class="text-2xl font-semibold text-gray-900 tracking-tight transition-colors hover:text-gray-700 flex items-center gap-2">
+                  <svg class="w-6 h-6 text-[#202A36] transform -rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
+                  </svg>
+                  <span>SkyElite</span>
+                </a>
+
+                <!-- Custom Jet Livery Name Badge: -kartikay07 -->
+                <div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 backdrop-blur-md border border-gray-200/80 text-[11px] font-medium tracking-wide text-[#202A36] shadow-xs">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>JET // -kartikay07</span>
+                </div>
+              </div>
+
+              <!-- Desktop Menu Items: hidden on mobile, visible md:flex (Start, Story, Rates, Benefits, FAQ) in gray-900 with hover:text-gray-700 transition -->
+              <div class="hidden md:flex items-center gap-8">
+                <a href="#start" class="text-gray-900 hover:text-gray-700 font-medium transition-colors text-sm tracking-wide">Start</a>
+                <a href="#story" class="text-gray-900 hover:text-gray-700 font-medium transition-colors text-sm tracking-wide">Story</a>
+                <a href="#rates" class="text-gray-900 hover:text-gray-700 font-medium transition-colors text-sm tracking-wide">Rates</a>
+                <a href="#benefits" class="text-gray-900 hover:text-gray-700 font-medium transition-colors text-sm tracking-wide">Benefits</a>
+                <a href="#faq" class="text-gray-900 hover:text-gray-700 font-medium transition-colors text-sm tracking-wide">FAQ</a>
+              </div>
+
+              <!-- Right Controls & Mobile Menu Button -->
+              <div class="flex items-center gap-3">
+                <!-- Sound Toggle Button -->
+                <button
+                  id="muteToggleBtn"
+                  type="button"
+                  title="Toggle video sound"
+                  class="p-2 rounded-full bg-white/80 hover:bg-white text-gray-800 backdrop-blur-md border border-gray-200 shadow-xs transition-colors cursor-pointer"
+                >
+                  <svg id="volumeIconMuted" class="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="22" y1="9" x2="16" y2="15"></line>
+                    <line x1="16" y1="9" x2="22" y2="15"></line>
+                  </svg>
+                  <svg id="volumeIconActive" class="w-4 h-4 text-[#202A36] hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                </button>
+
+                <!-- Mobile Hamburger Menu Button using Lucide icons (Menu/X) -->
+                <button
+                  id="mobileMenuBtn"
+                  type="button"
+                  aria-label="Toggle navigation menu"
+                  class="md:hidden p-2 rounded-lg text-gray-900 hover:text-gray-700 bg-white/70 backdrop-blur-md border border-gray-200 transition-colors cursor-pointer"
+                >
+                  <svg id="hamburgerIcon" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                  </svg>
+                  <svg id="closeIcon" class="w-6 h-6 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Mobile Menu Dropdown: white/95 opacity background, backdrop blur, rounded corners, shadow -->
+            <div id="mobileDropdown" class="hidden md:hidden px-6 pt-2 pb-6 max-w-7xl mx-auto">
+              <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 p-6 flex flex-col gap-4">
+                <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                  <span class="text-xs uppercase font-semibold tracking-wider text-gray-500">Navigation</span>
+                  <span class="text-xs font-medium text-emerald-600 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Edition -kartikay07 Active
+                  </span>
+                </div>
+                <a href="#start" class="mobile-nav-link text-left text-gray-900 hover:text-gray-700 font-medium py-1 transition-colors text-base">Start</a>
+                <a href="#story" class="mobile-nav-link text-left text-gray-900 hover:text-gray-700 font-medium py-1 transition-colors text-base">Story</a>
+                <a href="#rates" class="mobile-nav-link text-left text-gray-900 hover:text-gray-700 font-medium py-1 transition-colors text-base">Rates</a>
+                <a href="#benefits" class="mobile-nav-link text-left text-gray-900 hover:text-gray-700 font-medium py-1 transition-colors text-base">Benefits</a>
+                <a href="#faq" class="mobile-nav-link text-left text-gray-900 hover:text-gray-700 font-medium py-1 transition-colors text-base">FAQ</a>
+                <div class="pt-2">
+                  <button
+                    onclick="openBookingModal()"
+                    class="w-full py-2.5 rounded-full text-white bg-[#202A36] hover:bg-[#1a2229] font-medium text-sm transition-colors text-center shadow-sm cursor-pointer"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Main Content Area: flex-1, flex items-center justify-center -->
+          <div class="flex-1 flex items-center justify-center">
+            
+            <!-- Hero Content: centered, -mt-80 to pull up -->
+            <div class="-mt-80 text-center flex flex-col items-center px-4 max-w-4xl mx-auto select-none">
+              
+              <!-- Small uppercase label: PRIVATE JETS (text-sm, font-semibold, gray-600, tracking-wider, mb-4) with custom livery tag -->
+              <div class="flex items-center gap-2 mb-4">
+                <p class="text-sm font-semibold text-gray-600 tracking-wider uppercase">
+                  PRIVATE JETS
+                </p>
+                <span class="text-gray-400">•</span>
+                <span class="text-xs font-semibold uppercase tracking-wider text-[#202A36] bg-white/70 px-2 py-0.5 rounded-md backdrop-blur-xs border border-gray-200/60">
+                  Tail: -kartikay07
+                </span>
+              </div>
+
+              <!-- Large two-line heading with overlapping effect -->
+              <div class="flex flex-col items-center">
+                <!-- Line 1: Premium. (text-6xl md:text-7xl lg:text-8xl, font-normal, text-gray-500, leading-none, tracking-tighter) -->
+                <h1 class="text-6xl md:text-7xl lg:text-8xl font-normal text-gray-500 leading-none tracking-tighter">
+                  Premium.
+                </h1>
+
+                <!-- Line 2: Accessible. (same size, color: #202A36, negative margin-top: -12px for overlap) -->
+                <h2
+                  class="text-6xl md:text-7xl lg:text-8xl font-normal leading-none tracking-tighter -mt-[12px]"
+                  style="color: #202A36;"
+                >
+                  Accessible.
+                </h2>
+              </div>
+
+              <!-- Subtitle: Your dedication deserves recognition. (text-lg md:text-xl, gray-600, mb-6, max-w-2xl) -->
+              <p class="text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mt-4 font-normal leading-relaxed">
+                Your dedication deserves recognition.
+              </p>
+
+              <!-- Two call-to-action buttons (gap-4, centered) -->
+              <div class="flex items-center justify-center gap-4">
+                <!-- Discover button: px-4 py-2, rounded-full, bg-gray-300, text-gray-800, font-medium, hover:bg-gray-400 -->
+                <a
+                  href="#story"
+                  class="px-4 py-2 rounded-full bg-gray-300 text-gray-800 font-medium hover:bg-gray-400 transition-colors text-sm shadow-xs inline-block"
+                >
+                  Discover
+                </a>
+
+                <!-- Book Now button: px-4 py-2, rounded-full, white text, bg-color #202A36, hover color #1a2229 with smooth transitions -->
+                <button
+                  type="button"
+                  onclick="openBookingModal()"
+                  class="px-4 py-2 rounded-full text-white font-medium transition-colors text-sm shadow-sm cursor-pointer"
+                  style="background-color: #202A36;"
+                  onmouseover="this.style.backgroundColor='#1a2229'"
+                  onmouseout="this.style.backgroundColor='#202A36'"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Livery Callout Ribbon: name on the jet -kartikay07 -->
+          <div class="pb-6 px-8 max-w-7xl mx-auto w-full flex items-center justify-between text-xs text-gray-600">
+            <div class="hidden sm:flex items-center gap-2 bg-white/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-gray-200/60 shadow-xs">
+              <span class="font-semibold text-[#202A36]">AIRCRAFT REGISTRATION:</span>
+              <span>Gulfstream G650ER Flagship</span>
+              <span class="text-gray-300">|</span>
+              <span class="text-[#202A36] font-medium tracking-wider">LIVERY: -kartikay07</span>
+            </div>
+
+            <div class="flex items-center gap-2 mx-auto sm:mx-0 bg-white/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-gray-200/60 shadow-xs">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Available for on-demand dispatch in 120 minutes</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Story Section -->
+      <section id="story" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div class="lg:col-span-6 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-200/70 text-gray-700 text-xs font-semibold tracking-wider uppercase">
+              <svg class="w-3.5 h-3.5 text-[#202A36]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+              </svg>
+              The SkyElite Heritage & -kartikay07 Livery
+            </div>
+            <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-[#202A36] leading-tight">
+              Redefining bespoke flight without the traditional friction.
+            </h2>
+            <p class="text-gray-600 text-base md:text-lg leading-relaxed">
+              SkyElite was forged on the belief that private aviation should be effortless, pristine, and transparent. Our signature flagship, emblazoned with the custom livery insignia <strong class="text-[#202A36] font-semibold">-kartikay07</strong>, embodies an uncompromising standard of aerodynamic grace and private cabin luxury.
+            </p>
+            <div class="grid grid-cols-2 gap-6 pt-4 border-t border-gray-200">
+              <div>
+                <p class="text-2xl md:text-3xl font-bold text-[#202A36]">Mach 0.90</p>
+                <p class="text-xs md:text-sm text-gray-500">Cruising Speed</p>
+              </div>
+              <div>
+                <p class="text-2xl md:text-3xl font-bold text-[#202A36]">7,500 nm</p>
+                <p class="text-xs md:text-sm text-gray-500">Non-stop Global Range</p>
+              </div>
+              <div>
+                <p class="text-2xl md:text-3xl font-bold text-[#202A36]">15 Min</p>
+                <p class="text-xs md:text-sm text-gray-500">Tarmac Express Boarding</p>
+              </div>
+              <div>
+                <p class="text-2xl md:text-3xl font-bold text-[#202A36]">100%</p>
+                <p class="text-xs md:text-sm text-gray-500">Bespoke Privacy Guarantee</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6">
+            <div class="relative rounded-3xl overflow-hidden bg-[#202A36] p-8 md:p-10 text-white shadow-2xl">
+              <div class="relative z-10 space-y-6">
+                <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                  <div>
+                    <span class="text-xs uppercase tracking-widest text-gray-400">Flagship Aircraft</span>
+                    <h3 class="text-xl font-semibold">Gulfstream G650ER</h3>
+                  </div>
+                  <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono tracking-wider">
+                    -kartikay07
+                  </span>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <div>
+                      <h4 class="text-sm font-semibold">Custom Tail Livery -kartikay07</h4>
+                      <p class="text-xs text-gray-300">Hand-finished aeronautical titanium paint with distinctive custom callout insignia.</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <div>
+                      <h4 class="text-sm font-semibold">Whisper-Quiet Stateroom</h4>
+                      <p class="text-xs text-gray-300">Triple-sealed acoustic cabin pressurized to an ultra-low 3,290 feet altitude.</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <div>
+                      <h4 class="text-sm font-semibold">Ka-Band Global High-Speed Wi-Fi</h4>
+                      <p class="text-xs text-gray-300">Stream 4K video and conduct low-latency executive meetings at 45,000 feet.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onclick="openBookingModal('Gulfstream G650ER (Edition -kartikay07)')"
+                  class="w-full mt-4 py-3 rounded-full bg-white text-[#202A36] font-semibold text-sm hover:bg-gray-100 transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Charter Flagship -kartikay07</span>
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rates Section -->
+      <section id="rates" class="py-24 bg-white border-y border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+          <div class="text-center max-w-2xl mx-auto mb-16">
+            <p class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2">Transparent Aviation</p>
+            <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-[#202A36]">
+              Simple, accessible charter rates.
+            </h2>
+            <p class="text-gray-600 mt-4 text-base">
+              No hidden repositioning fees. No restrictive 25-hour card commitments. Pay exclusively for occupied flight hours.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Light Jet -->
+            <div class="rounded-2xl border border-gray-200 p-8 hover:shadow-lg transition-all duration-300 flex flex-col justify-between bg-gray-50/50">
+              <div>
+                <span class="text-xs uppercase font-semibold text-gray-500 tracking-wider">Regional Mobility</span>
+                <h3 class="text-xl font-bold text-[#202A36] mt-1">Light Jet Category</h3>
+                <p class="text-sm text-gray-600 mt-2">Ideal for short hops and quick business summits up to 4 hours.</p>
+                <div class="mt-6 flex items-baseline gap-1">
+                  <span class="text-4xl font-extrabold text-[#202A36]">$4,800</span>
+                  <span class="text-sm text-gray-500">/ flight hour</span>
+                </div>
+                <ul class="mt-6 space-y-3 text-sm text-gray-600">
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Up to 6-7 Executive Passengers
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Range: 1,800 nautical miles
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Complimentary bar & cold catering
+                  </li>
+                </ul>
+              </div>
+              <button
+                onclick="openBookingModal('Light Jet (Phenom 300E)')"
+                class="mt-8 w-full py-2.5 rounded-full border border-gray-300 text-gray-800 font-medium hover:bg-gray-100 transition-colors text-sm cursor-pointer"
+              >
+                Inquire Light Jet
+              </button>
+            </div>
+
+            <!-- Super Midsize -->
+            <div class="rounded-2xl border border-gray-200 p-8 hover:shadow-lg transition-all duration-300 flex flex-col justify-between bg-gray-50/50">
+              <div>
+                <span class="text-xs uppercase font-semibold text-gray-500 tracking-wider">Transcontinental</span>
+                <h3 class="text-xl font-bold text-[#202A36] mt-1">Super Midsize</h3>
+                <p class="text-sm text-gray-600 mt-2">Stand-up cabin comfort with full galley and coast-to-coast endurance.</p>
+                <div class="mt-6 flex items-baseline gap-1">
+                  <span class="text-4xl font-extrabold text-[#202A36]">$7,600</span>
+                  <span class="text-sm text-gray-500">/ flight hour</span>
+                </div>
+                <ul class="mt-6 space-y-3 text-sm text-gray-600">
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    8-10 Executive Passengers
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Range: 3,400 nautical miles
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Dedicated cabin attendant included
+                  </li>
+                </ul>
+              </div>
+              <button
+                onclick="openBookingModal('Super Midsize (Challenger 350)')"
+                class="mt-8 w-full py-2.5 rounded-full border border-gray-300 text-gray-800 font-medium hover:bg-gray-100 transition-colors text-sm cursor-pointer"
+              >
+                Inquire Super Midsize
+              </button>
+            </div>
+
+            <!-- Ultra-Long Flagship -kartikay07 -->
+            <div class="rounded-2xl border-2 border-[#202A36] p-8 shadow-xl flex flex-col justify-between relative bg-white">
+              <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#202A36] text-white text-[11px] font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                Flagship Edition -kartikay07
+              </div>
+              <div>
+                <span class="text-xs uppercase font-semibold text-emerald-600 tracking-wider">Intercontinental Pinnacle</span>
+                <h3 class="text-xl font-bold text-[#202A36] mt-1">Gulfstream G650ER</h3>
+                <p class="text-sm text-gray-600 mt-2">Bespoke luxury, master bedroom suite, conference zone & Michelin dining.</p>
+                <div class="mt-6 flex items-baseline gap-1">
+                  <span class="text-4xl font-extrabold text-[#202A36]">$11,200</span>
+                  <span class="text-sm text-gray-500">/ flight hour</span>
+                </div>
+                <ul class="mt-6 space-y-3 text-sm text-gray-600">
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[#202A36] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    14-16 VIP Passengers
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[#202A36] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Non-stop NY to Tokyo or London to Singapore
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[#202A36] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Custom livery registration: <strong>-kartikay07</strong>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[#202A36] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Michelin-starred chef curated dining
+                  </li>
+                </ul>
+              </div>
+              <button
+                onclick="openBookingModal('Gulfstream G650ER (Edition -kartikay07)')"
+                class="mt-8 w-full py-2.5 rounded-full text-white font-medium hover:bg-[#1a2229] transition-colors text-sm shadow-md cursor-pointer"
+                style="background-color: #202A36;"
+              >
+                Charter Flagship -kartikay07
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Benefits Section -->
+      <section id="benefits" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <p class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2">The SkyElite Edge</p>
+          <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-[#202A36]">
+            Engineered around your precious time.
+          </h2>
+          <p class="text-gray-600 mt-4 text-base">
+            Every operational metric at SkyElite is calibrated to give you back hours of your life.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:border-gray-300 transition-colors">
+            <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-[#202A36] mb-4">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-lg text-[#202A36] mb-2">Zero Tarmac Delays</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Arrive at the private FBO terminal 15 minutes before departure. Your car drives directly to the aircraft steps.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:border-gray-300 transition-colors">
+            <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-[#202A36] mb-4">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-lg text-[#202A36] mb-2">ARGUS Platinum Safety</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Every pilot possesses in excess of 5,000 multi-engine command hours, exceeding FAA standards by more than 300%.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:border-gray-300 transition-colors">
+            <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-[#202A36] mb-4">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-lg text-[#202A36] mb-2">Custom Livery Edition</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Fly aboard the iconic -kartikay07 flagship aircraft with personalized onboard stationery, linens, and amenities.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:border-gray-300 transition-colors">
+            <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-[#202A36] mb-4">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-lg text-[#202A36] mb-2">5,000+ Accessible Airports</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Access secondary and regional runways that commercial airliners can never touch, putting you minutes from your real destination.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section id="faq" class="py-24 bg-gray-100/70 border-t border-gray-200">
+        <div class="max-w-4xl mx-auto px-6">
+          <div class="text-center mb-12">
+            <p class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2">Common Inquiries</p>
+            <h2 class="text-3xl md:text-4xl font-semibold text-[#202A36]">Frequently Asked Questions</h2>
+          </div>
+
+          <div class="space-y-4">
+            <details class="group bg-white rounded-2xl p-6 border border-gray-200 shadow-xs open:shadow-md transition-all">
+              <summary class="flex items-center justify-between cursor-pointer font-medium text-lg text-[#202A36] list-none">
+                <span>How quickly can SkyElite -kartikay07 be dispatched for departure?</span>
+                <svg class="w-5 h-5 text-gray-400 transform group-open:rotate-90 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </summary>
+              <p class="mt-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                Our flagship aircraft can be wheels-up within as little as 2 hours from confirmation for domestic routes, and 4 hours for transcontinental international itineraries.
+              </p>
+            </details>
+
+            <details class="group bg-white rounded-2xl p-6 border border-gray-200 shadow-xs open:shadow-md transition-all">
+              <summary class="flex items-center justify-between cursor-pointer font-medium text-lg text-[#202A36] list-none">
+                <span>Can I request custom tail registration or branding like -kartikay07?</span>
+                <svg class="w-5 h-5 text-gray-400 transform group-open:rotate-90 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </summary>
+              <p class="mt-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                Yes. SkyElite features the dedicated <strong>-kartikay07</strong> custom livery edition as our signature flagship. Private charter clients can also request custom tail badges, personalized flight manifests, and bespoke cabin interior setups for corporate retreats or private voyages.
+              </p>
+            </details>
+
+            <details class="group bg-white rounded-2xl p-6 border border-gray-200 shadow-xs open:shadow-md transition-all">
+              <summary class="flex items-center justify-between cursor-pointer font-medium text-lg text-[#202A36] list-none">
+                <span>Are pets welcome in the cabin?</span>
+                <svg class="w-5 h-5 text-gray-400 transform group-open:rotate-90 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </summary>
+              <p class="mt-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                Absolutely. Your pets are cherished VIP guests and travel uncaged right alongside you on the sofa or leather captain chairs, complete with custom hydration and organic pet treats.
+              </p>
+            </details>
+
+            <details class="group bg-white rounded-2xl p-6 border border-gray-200 shadow-xs open:shadow-md transition-all">
+              <summary class="flex items-center justify-between cursor-pointer font-medium text-lg text-[#202A36] list-none">
+                <span>What are your cancellation policies?</span>
+                <svg class="w-5 h-5 text-gray-400 transform group-open:rotate-90 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </summary>
+              <p class="mt-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                Cancellations made up to 48 hours prior to scheduled departure incur zero penalties and receive a 100% immediate credit refund. Weather or mechanical contingencies are covered by our Instant Aircraft Swap Guarantee.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="bg-[#202A36] text-white py-12 px-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-white transform -rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
+            </svg>
+            <span class="text-xl font-semibold tracking-tight">SkyElite</span>
+            <span class="text-xs text-gray-400">| Flagship Edition -kartikay07</span>
+          </div>
+
+          <div class="text-xs text-gray-400 text-center md:text-right">
+            &copy; 2026 SkyElite Aviation. Dedicated to seamless private flight. All rights reserved.
+          </div>
+        </div>
+      </footer>
+
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl relative border border-gray-100">
+        <!-- Close Button -->
+        <button
+          onclick="closeBookingModal()"
+          class="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-800 transition-colors cursor-pointer"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <!-- Form Content -->
+        <div id="bookingFormContent">
+          <div class="mb-6">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gray-100 text-[#202A36] text-[11px] font-semibold tracking-wide uppercase mb-2">
+              Charter Concierge • -kartikay07
+            </div>
+            <h3 class="text-2xl font-semibold text-[#202A36] tracking-tight">
+              Request Your Private Jet
+            </h3>
+            <p class="text-xs text-gray-500 mt-1">
+              Direct confirmation with zero middlemen. Instant flight plan routing.
+            </p>
+          </div>
+
+          <form id="jetBookingForm" onsubmit="handleBookingForm(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
+                Aircraft Model
+              </label>
+              <select
+                id="modalJetModel"
+                class="w-full px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#202A36]"
+              >
+                <option value="Gulfstream G650ER (Edition -kartikay07)">Gulfstream G650ER (Edition -kartikay07)</option>
+                <option value="Super Midsize (Challenger 350)">Super Midsize (Challenger 350)</option>
+                <option value="Light Jet (Phenom 300E)">Light Jet (Phenom 300E)</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
+                  Departure Airport
+                </label>
+                <input
+                  type="text"
+                  required
+                  value="New York (KTEB)"
+                  class="w-full px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#202A36]"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
+                  Arrival Destination
+                </label>
+                <input
+                  type="text"
+                  required
+                  value="London (EGGW)"
+                  class="w-full px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#202A36]"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
+                  Departure Date
+                </label>
+                <input
+                  type="date"
+                  required
+                  value="2026-10-15"
+                  class="w-full px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#202A36]"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
+                  Passengers
+                </label>
+                <select
+                  class="w-full px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#202A36]"
+                >
+                  <option value="1-2 Passengers">1-2 Passengers</option>
+                  <option value="4 Passengers" selected>4 Passengers</option>
+                  <option value="8 Passengers">8 Passengers</option>
+                  <option value="12+ VIP Group">12+ VIP Group</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <button
+                type="submit"
+                class="w-full py-3 rounded-full text-white font-medium text-sm transition-colors shadow-md cursor-pointer"
+                style="background-color: #202A36;"
+                onmouseover="this.style.backgroundColor='#1a2229'"
+                onmouseout="this.style.backgroundColor='#202A36'"
+              >
+                Confirm Flight Booking
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Success Message -->
+        <div id="bookingSuccessMessage" class="hidden py-8 text-center space-y-4">
+          <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-[#202A36]">Flight Request Reserved!</h3>
+          <p class="text-sm text-gray-600">
+            Your flight inquiry for the <strong>-kartikay07 Edition</strong> has been received. Our operations team is coordinating flight clearance and will reach out with your itinerary.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional mount container for Vite React applet (if running under React) -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Vanilla JavaScript for pure HTML standalone interactivity -->
+    <script>
+      // Mobile Menu Toggle
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const mobileDropdown = document.getElementById('mobileDropdown');
+      const hamburgerIcon = document.getElementById('hamburgerIcon');
+      const closeIcon = document.getElementById('closeIcon');
+
+      if (mobileBtn && mobileDropdown) {
+        mobileBtn.addEventListener('click', () => {
+          const isOpen = !mobileDropdown.classList.contains('hidden');
+          if (isOpen) {
+            mobileDropdown.classList.add('hidden');
+            hamburgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+          } else {
+            mobileDropdown.classList.remove('hidden');
+            hamburgerIcon.classList.add('hidden');
+            closeIcon.classList.remove('hidden');
+          }
+        });
+
+        // Close dropdown when mobile nav link clicked
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+          link.addEventListener('click', () => {
+            mobileDropdown.classList.add('hidden');
+            hamburgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+          });
+        });
+      }
+
+      // Audio Sound Toggle for Video
+      const muteBtn = document.getElementById('muteToggleBtn');
+      const video = document.getElementById('heroVideo');
+      const volumeIconMuted = document.getElementById('volumeIconMuted');
+      const volumeIconActive = document.getElementById('volumeIconActive');
+
+      if (muteBtn && video) {
+        muteBtn.addEventListener('click', () => {
+          video.muted = !video.muted;
+          if (video.muted) {
+            volumeIconMuted.classList.remove('hidden');
+            volumeIconActive.classList.add('hidden');
+          } else {
+            volumeIconMuted.classList.add('hidden');
+            volumeIconActive.classList.remove('hidden');
+          }
+        });
+      }
+
+      // Booking Modal Functions
+      const bookingModal = document.getElementById('bookingModal');
+      const bookingFormContent = document.getElementById('bookingFormContent');
+      const bookingSuccessMessage = document.getElementById('bookingSuccessMessage');
+      const modalJetModel = document.getElementById('modalJetModel');
+
+      function openBookingModal(modelName) {
+        if (modelName && modalJetModel) {
+          modalJetModel.value = modelName;
+        }
+        if (bookingModal) {
+          bookingModal.classList.remove('hidden');
+          bookingModal.classList.add('flex');
+          if (bookingFormContent) bookingFormContent.classList.remove('hidden');
+          if (bookingSuccessMessage) bookingSuccessMessage.classList.add('hidden');
+        }
+      }
+
+      function closeBookingModal() {
+        if (bookingModal) {
+          bookingModal.classList.add('hidden');
+          bookingModal.classList.remove('flex');
+        }
+      }
+
+      function handleBookingForm(e) {
+        e.preventDefault();
+        if (bookingFormContent && bookingSuccessMessage) {
+          bookingFormContent.classList.add('hidden');
+          bookingSuccessMessage.classList.remove('hidden');
+          setTimeout(() => {
+            closeBookingModal();
+          }, 2500);
+        }
+      }
+
+      // Close modal on backdrop click
+      if (bookingModal) {
+        bookingModal.addEventListener('click', (e) => {
+          if (e.target === bookingModal) {
+            closeBookingModal();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
